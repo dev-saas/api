@@ -1,0 +1,13 @@
+{
+    "ext": "js, graphql",
+    "env": {
+        "JWT_SECRET": "somesupersecretkey",
+        "MONGO_URI": "mongodb://asdasd:asdasd@ds113122.mlab.com:13122/eventd",
+        "REDIS_PASSWORD": "asdasdasdSASDasdasdadD",
+        "REDIS_HOST": "redis-19422.c12.us-east-1-5.ec2.cloud.redislabs.com",
+        "REDIS_PORT": 19422,
+        "DEBUG": "graphql:* server:* middleware:*",
+        "RECAPTCHA_SECRET_KEY": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
+        "RECAPTCHA_SITE_KEY": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+    }
+}

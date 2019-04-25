@@ -1,0 +1,65 @@
+directive @isAuth on FIELD_DEFINITION
+directive @recaptcha on FIELD_DEFINITION
+
+scalar DateTime
+scalar Email
+
+type Booking {
+  _id: ID!
+  event: Event!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Event {
+  _id: ID!
+  title: String!
+  description: String!
+  price: Float!
+  date: DateTime!
+  creator: User!
+}
+
+type User {
+  _id: ID!
+  email: Email!
+  createdEvents: [Event!]
+}
+
+type AuthData {
+  userId: ID!
+  token: String!
+  tokenExpiration: Int!
+}
+
+input EventInput {
+  title: String!
+  description: String!
+  price: Float!
+  date: DateTime!
+}
+
+input UpdateEventInput {
+  _id: ID!
+  event: EventInput!
+}
+
+type Query {
+  events: [Event!]!
+  bookings: [Booking!]! @isAuth
+  login(email: Email!, password: String!): AuthData! @recaptcha
+}
+
+type Mutation {
+  createEvent(eventInput: EventInput!): Event! @isAuth
+  updateEvent(input: UpdateEventInput!): Event! @isAuth
+  createUser(email: Email!, password: String!): User @recaptcha
+  bookEvent(eventId: ID!): Booking! @isAuth
+  cancelBooking(bookingId: ID!): Event! @isAuth
+}
+
+type Subscription {
+  newEvent: Event!
+  updatedEvent: Event!
+}
