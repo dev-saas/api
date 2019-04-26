@@ -49,6 +49,9 @@ type Query {
   events: [Event!]!
   bookings: [Booking!]! @isAuth
   login(email: Email!, password: String!): AuthData! @recaptcha
+
+
+  status: Boolean
 }
 
 type Mutation {
@@ -57,9 +60,18 @@ type Mutation {
   createUser(email: Email!, password: String!): User @recaptcha
   bookEvent(eventId: ID!): Booking! @isAuth
   cancelBooking(bookingId: ID!): Event! @isAuth
+
+
+  turnOn(relay: Int!): Boolean
+  turnOff(relay: Int!): Boolean
 }
 
 type Subscription {
   newEvent: Event!
   updatedEvent: Event!
+
+  newTemperature: String!
+  newHumidity: String!
+  relay1: Boolean!
+  relay2: Boolean!
 }
