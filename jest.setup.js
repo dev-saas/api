@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'test') {
 const { connection } = require('./src/database');
 const app = require('./src/app');
 const pubsub = require('./src/pubsub');
-
+const mqtt = require('./src/mqtt');
 const User = require('./src/models/user');
 
 beforeAll(() => app.listen());
@@ -17,5 +17,6 @@ afterEach(() => connection.db.dropDatabase());
 afterAll(async () => {
   await pubsub.close();
   await app.close();
+  await mqtt.end();
   return connection.close();
 });

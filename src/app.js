@@ -7,6 +7,7 @@ const graphQLSchema = require('./schema');
 const auth = require('./middleware/auth');
 const debug = require('debug');
 const pubsub = require('./pubsub');
+const mqtt = require('./mqtt');
 const app = express();
 const { models } = require('./database');
 const dataloaders = require('./graphql/dataloaders');
@@ -42,6 +43,7 @@ const server = new ApolloServer({
           pubsub,
           models,
           dataloaders,
+          mqtt,
           services: {
             Booking: BookingService,
             Event: EventService

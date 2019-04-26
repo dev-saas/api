@@ -8,6 +8,7 @@
         "REDIS_PORT": 19422,
         "DEBUG": "graphql:* server:* middleware:*",
         "RECAPTCHA_SECRET_KEY": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
-        "RECAPTCHA_SITE_KEY": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+        "RECAPTCHA_SITE_KEY": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+        "CLOUDMQTT_URL": "mqtt://asdasdad:afsfsdfsdfs@m22.cloudmqtt.com:13920"
     }
 }
