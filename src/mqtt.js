@@ -4,8 +4,8 @@ var pubsub = require('./pubsub');
 var {
   NEW_TEMPERATURE,
   NEW_HUMIDITY,
-  RELAY_1,
-  RELAY_2
+  TURNED_OFF,
+  TURNED_ON
 } = require('./graphql/subscriptions/channels');
 
 var client = mqtt.connect(process.env.CLOUDMQTT_URL);
@@ -26,18 +26,18 @@ client.subscribe('umidade', function() {
   });
 });
 
-client.subscribe('rele1', function() {
+client.subscribe('turnedOn', function() {
   client.on('message', async function(topic, msg, pkt) {
-    if (topic !== 'rele1') return;
-    let isOn = JSON.parse(msg);
-    pubsub.publish(RELAY_1, { relay1: isOn });
+    if (topic !== 'turnedOn') return;
+    let relay = JSON.parse(msg);
+    pubsub.publish(TURNED_ON, { turnedOn: relay });
   });
 });
-client.subscribe('rele2', function() {
+client.subscribe('turnedOff', function() {
   client.on('message', async function(topic, msg, pkt) {
-    if (topic !== 'rele2') return;
-    let isOn = JSON.parse(msg);
-    pubsub.publish(RELAY_2, { relay2: isOn });
+    if (topic !== 'turnedOff') return;
+    let relay = JSON.parse(msg);
+    pubsub.publish(TURNED_OFF, { turnedOff: relay });
   });
 });
 

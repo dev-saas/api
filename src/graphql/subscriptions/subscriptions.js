@@ -3,8 +3,8 @@ const {
   UPDATED_EVENT,
   NEW_HUMIDITY,
   NEW_TEMPERATURE,
-  RELAY_1,
-  RELAY_2
+  TURNED_OFF,
+  TURNED_ON
 } = require('./channels');
 
 exports.resolver = {
@@ -21,11 +21,11 @@ exports.resolver = {
     newHumidity: {
       subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(NEW_HUMIDITY)
     },
-    relay1: {
-      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(RELAY_1)
+    turnedOn: {
+      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(TURNED_ON)
     },
-    relay2: {
-      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(RELAY_2)
+    turnedOff: {
+      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(TURNED_OFF)
     }
   }
 };

@@ -72,6 +72,6 @@ type Subscription {
 
   newTemperature: String!
   newHumidity: String!
-  relay1: Boolean!
-  relay2: Boolean!
+  turnedOff: Int!
+  turnedOn: Int!
 }
