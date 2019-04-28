@@ -66,12 +66,16 @@ type Mutation {
   turnOff(relay: Int!): Boolean
 }
 
+type NewValue {
+  name: String!
+  value: Float!
+}
+
 type Subscription {
   newEvent: Event!
   updatedEvent: Event!
 
-  newTemperature: String!
-  newHumidity: String!
+  newValue: NewValue!
   turnedOff: Int!
   turnedOn: Int!
 }
