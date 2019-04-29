@@ -1,6 +1,6 @@
 {
   "name": "@dev-saas/api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "GraphQL API",
   "main": "server.js",
   "scripts": {

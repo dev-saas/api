@@ -15,23 +15,22 @@ client.on('connect', () => {
   client.subscribe('turnedOn');
   client.subscribe('turnedOff');
   client.subscribe('luminosidade');
+  client.subscribe('moisture');
 });
 
 client.on('message', function(topic, msg, pkt) {
   const value = JSON.parse(msg);
   switch (topic) {
-    case 'temperatura':
-    case 'luminosidade':
-    case 'umidade':
-      pubsub.publish(NEW_VALUE, {
-        newValue: { name: topic, value }
-      });
-      break;
     case 'turnedOn':
       pubsub.publish(TURNED_ON, { turnedOn: value });
       break;
     case 'turnedOff':
       pubsub.publish(TURNED_OFF, { turnedOff: value });
+      break;
+    default:
+      pubsub.publish(NEW_VALUE, {
+        newValue: { name: topic, value }
+      });
       break;
   }
 });
