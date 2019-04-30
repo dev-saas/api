@@ -76,6 +76,4 @@ type Subscription {
   updatedEvent: Event!
 
   newValue: NewValue!
-  turnedOff: Int!
-  turnedOn: Int!
 }
