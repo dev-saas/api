@@ -1,6 +1,6 @@
-const sgMail = require('@sendgrid/mail');
+const sgMail = require('@sendgrid/mail')
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const msg = {
   to: '',
@@ -8,14 +8,14 @@ const msg = {
   subject: '',
   text: '',
   html: ''
-};
+}
 
-const sendEmail = function({ to, subject, text, html }) {
-  msg.to = to;
-  msg.subject = subject;
-  msg.text = text;
-  msg.html = html;
-  return sgMail.send(msg);
-};
+const sendEmail = function ({ to, subject, text, html }) {
+  msg.to = to
+  msg.subject = subject
+  msg.text = text
+  msg.html = html
+  return sgMail.send(msg)
+}
 
-module.exports = sendEmail;
+module.exports = sendEmail
