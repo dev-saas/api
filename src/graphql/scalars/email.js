@@ -1,17 +1,17 @@
-const { GraphQLScalarType } = require('graphql');
+const { GraphQLScalarType } = require('graphql')
 
-const { isEmail } = require('validator');
+const { isEmail } = require('validator')
 
 const parseEmail = value => {
   if (isEmail(value)) {
-    return value.toLowerCase();
+    return value.toLowerCase()
   }
-  throw new Error('Invalid email');
-};
+  throw new Error('Invalid email')
+}
 
 const parseLiteralEmail = ast => {
-  return parseEmail(ast.value);
-};
+  return parseEmail(ast.value)
+}
 
 const Email = new GraphQLScalarType({
   name: 'Email',
@@ -19,8 +19,8 @@ const Email = new GraphQLScalarType({
   serialize: parseEmail,
   parseValue: parseEmail,
   parseLiteral: parseLiteralEmail
-});
+})
 
 exports.resolver = {
   Email
-};
+}

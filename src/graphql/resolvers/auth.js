@@ -10,4 +10,4 @@ exports.resolver = {
   Query: {
     login: (_, { email, password }, ctx) => ctx.models.User.login(email, password)
   }
-};
+}

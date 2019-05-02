@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   email: {
@@ -19,45 +19,45 @@ const userSchema = new Schema({
       ref: 'Event'
     }
   ]
-});
+})
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (this.isModified('password') || this.isNew) {
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
+    this.password = await bcrypt.hash(this.password, 12)
+    next()
   } else {
-    return next();
+    return next()
   }
-});
+})
 
-userSchema.statics.login = async function(email, password) {
-  const user = await this.findOne({ email: email }, { password: 1 });
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email: email }, { password: 1 })
   if (!user) {
-    throw new Error('User does not exist!');
+    throw new Error('User does not exist!')
   }
-  const isEqual = await bcrypt.compare(password, user.password);
+  const isEqual = await bcrypt.compare(password, user.password)
   if (!isEqual) {
-    throw new Error('Password is incorrect!');
+    throw new Error('Password is incorrect!')
   }
   const token = jwt.sign({ userId: user.id, email: user.email }, 'somesupersecretkey', {
     expiresIn: '1h'
-  });
-  return { userId: user.id, token: token, tokenExpiration: 1 };
-};
+  })
+  return { userId: user.id, token: token, tokenExpiration: 1 }
+}
 
-userSchema.statics.createNew = async function(email, password) {
+userSchema.statics.createNew = async function (email, password) {
   try {
-    const existingUser = await this.findOne({ email: email }, { _id: 1 });
+    const existingUser = await this.findOne({ email: email }, { _id: 1 })
     if (existingUser) {
-      throw new Error('User exists already.');
+      throw new Error('User exists already.')
     }
     return this.create({
       email: email,
       password: password
-    });
+    })
   } catch (err) {
-    throw err;
+    throw err
   }
-};
+}
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)

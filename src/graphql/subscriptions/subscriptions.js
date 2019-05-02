@@ -1,4 +1,4 @@
-const { NEW_EVENT, UPDATED_EVENT, NEW_VALUE } = require('./channels');
+const { NEW_EVENT, UPDATED_EVENT, NEW_VALUE } = require('./channels')
 
 exports.resolver = {
   Subscription: {
@@ -12,4 +12,4 @@ exports.resolver = {
       subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(NEW_VALUE)
     }
   }
-};
+}

@@ -1,21 +1,21 @@
-const reCAPTCHA = require('recaptcha2');
+const reCAPTCHA = require('recaptcha2')
 
-const recaptcha = new reCAPTCHA({
+const recaptcha = new reCAPTCHA({ // eslint-disable-line new-cap
   siteKey: process.env.RECAPTCHA_SITE_KEY,
   secretKey: process.env.RECAPTCHA_SECRET_KEY
-});
+})
 
 module.exports = {
-  async recaptcha(next, _, requires, { recaptchaData }) {
-    const { key, ip } = recaptchaData;
+  async recaptcha (next, _, requires, { recaptchaData }) {
+    const { key, ip } = recaptchaData
     if (!key || key === '') {
-      throw new Error('Recaptcha key missing');
+      throw new Error('Recaptcha key missing')
     }
     try {
-      await recaptcha.validate(key, ip);
+      await recaptcha.validate(key, ip)
     } catch (err) {
-      throw err;
+      throw err
     }
-    return next();
+    return next()
   }
-};
+}

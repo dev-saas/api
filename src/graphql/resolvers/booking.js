@@ -16,4 +16,4 @@ exports.resolver = {
     cancelBooking: async (_, { bookingId }, ctx, info) =>
       ctx.services.Booking.cancel(bookingId, ctx, info)
   }
-};
+}

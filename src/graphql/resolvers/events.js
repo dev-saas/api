@@ -13,4 +13,4 @@ exports.resolver = {
     updateEvent: async (_, { input }, ctx, info) =>
       ctx.services.Event.update(input, ctx, info)
   }
-};
+}
