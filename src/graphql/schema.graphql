@@ -1,5 +1,11 @@
 directive @isAuth on FIELD_DEFINITION
 directive @recaptcha on FIELD_DEFINITION
+directive @protect(roles: [Role]) on FIELD_DEFINITION
+
+enum Role {
+  ADMIN
+  USUARIO
+}
 
 scalar DateTime
 scalar Email
@@ -21,6 +27,21 @@ type Event {
   creator: User!
 }
 
+type EventsConnection {
+  pageInfo: PageInfo!
+  edges: [Event]
+}
+
+type BookingsConnection {
+  pageInfo: PageInfo!
+  edges: [Booking]
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  cursor: String!
+}
+
 type User {
   _id: ID!
   email: Email!
@@ -28,9 +49,7 @@ type User {
 }
 
 type AuthData {
-  userId: ID!
   token: String!
-  tokenExpiration: Int!
 }
 
 input EventInput {
@@ -40,14 +59,19 @@ input EventInput {
   date: DateTime!
 }
 
+input PageInput {
+  pageSize: Int
+  cursor: String
+}
+
 input UpdateEventInput {
   _id: ID!
   event: EventInput!
 }
 
 type Query {
-  events: [Event!]!
-  bookings: [Booking!]! @isAuth
+  getEvents(page: PageInput): EventsConnection
+  getBookings(page: PageInput): BookingsConnection @isAuth @protect(roles: [USUARIO])
   login(email: Email!, password: String!): AuthData! @recaptcha
 
 
@@ -55,7 +79,7 @@ type Query {
 }
 
 type Mutation {
-  createEvent(eventInput: EventInput!): Event! @isAuth
+  createEvent(eventInput: EventInput!): Event! @isAuth 
   updateEvent(input: UpdateEventInput!): Event! @isAuth
   createUser(email: Email!, password: String!): User @recaptcha
   bookEvent(eventId: ID!): Booking! @isAuth

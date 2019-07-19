@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const express = require('express')
 const bodyParser = require('body-parser')
 const { ApolloServer } = require('apollo-server-express')
@@ -9,7 +10,7 @@ const debug = require('debug')
 const pubsub = require('./pubsub')
 const mqtt = require('./mqtt')
 const app = express()
-const { models } = require('./database')
+const db = require('./database')
 const dataloaders = require('./graphql/dataloaders')
 const BookingService = require('./services/booking-service')
 const EventService = require('./services/event-service')
@@ -31,7 +32,7 @@ app.use((req, res, next) => {
 
 const server = new ApolloServer({
   schema: graphQLSchema,
-  formatError (err) {
+  formatError(err) {
     debug('graphql:error')(err)
     return err
   },
@@ -39,20 +40,20 @@ const server = new ApolloServer({
     connection
       ? { pubsub, dataloaders }
       : {
-        userId: auth(req.headers.authorization),
-        pubsub,
-        models,
-        dataloaders,
-        mqtt,
-        services: {
-          Booking: BookingService,
-          Event: EventService
-        },
-        recaptchaData: {
-          ip: req.ip,
-          key: req.headers.recaptcha
+          user: auth(req.headers.authorization),
+          pubsub,
+          ...db,
+          dataloaders,
+          mqtt,
+          services: {
+            Booking: BookingService,
+            Event: EventService
+          },
+          recaptchaData: {
+            ip: req.ip,
+            key: req.headers.recaptcha
+          }
         }
-      }
 })
 
 server.applyMiddleware({ app })

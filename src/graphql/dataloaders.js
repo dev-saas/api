@@ -2,7 +2,7 @@ const DataLoader = require('dataloader')
 
 const Event = require('../models/event')
 const User = require('../models/user')
-const infoToProjection = require('./mongodb-projection')
+const { infoToProjection } = require('./mongodb-utils')
 
 const userLoader = info => Loader('user', User, info)
 

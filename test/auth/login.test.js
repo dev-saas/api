@@ -17,9 +17,7 @@ describe('An user', () => {
       .expect(200)
       .expect(res => {
         expect(res.body.errors).toBeUndefined()
-        expect(res.body.data.login.userId).toBeDefined()
         expect(res.body.data.login.token).toBeDefined()
-        expect(res.body.data.login.tokenExpiration).toBeDefined()
       })
   })
 })

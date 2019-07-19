@@ -19,5 +19,5 @@ module.exports = authHeader => {
   if (!decodedToken) {
     return null
   }
-  return decodedToken.userId
+  return { id: decodedToken.id, role: decodedToken.role }
 }

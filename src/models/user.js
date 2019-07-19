@@ -13,15 +13,13 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  createdEvents: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Event'
-    }
-  ]
+  role: {
+    type: String,
+    default: 'USUARIO'
+  }
 })
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   if (this.isModified('password') || this.isNew) {
     this.password = await bcrypt.hash(this.password, 12)
     next()
@@ -30,8 +28,8 @@ userSchema.pre('save', async function (next) {
   }
 })
 
-userSchema.statics.login = async function (email, password) {
-  const user = await this.findOne({ email: email }, { password: 1 })
+userSchema.statics.login = async function(email, password) {
+  const user = await this.findOne({ email: email }, { password: 1, role: 1 })
   if (!user) {
     throw new Error('User does not exist!')
   }
@@ -39,13 +37,15 @@ userSchema.statics.login = async function (email, password) {
   if (!isEqual) {
     throw new Error('Password is incorrect!')
   }
-  const token = jwt.sign({ userId: user.id, email: user.email }, 'somesupersecretkey', {
-    expiresIn: '1h'
-  })
-  return { userId: user.id, token: token, tokenExpiration: 1 }
+  const token = jwt.sign(
+    { id: user.id, email, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '1d' }
+  )
+  return { token }
 }
 
-userSchema.statics.createNew = async function (email, password) {
+userSchema.statics.createNew = async function(email, password) {
   try {
     const existingUser = await this.findOne({ email: email }, { _id: 1 })
     if (existingUser) {
