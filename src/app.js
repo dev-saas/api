@@ -33,16 +33,14 @@ const services = Services(db, pubsub, mqtt)
 const server = new ApolloServer({
   schema: graphQLSchema,
   formatError(err) {
-    const { exception } = err.extensions
-    debug('graphql:error')(exception.stacktrace)
-    return process.env.NODE_ENV === 'production'
-      ? {
-          message: 'Sorry, try again later...'
-        }
-      : {
-          message: err.message,
-          path: err.path
-        }
+    if (process.env.NODE_ENV !== 'production') {
+      const { exception } = err.extensions
+      debug('graphql:error')(exception.stacktrace)
+    }
+    return {
+      message: err.message,
+      path: err.path
+    }
   },
   context: ({ req, connection }) =>
     connection
