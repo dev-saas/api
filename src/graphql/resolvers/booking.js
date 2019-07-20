@@ -12,9 +12,9 @@ exports.resolver = {
   },
   Mutation: {
     bookEvent: async (_, { eventId }, { user, services }) =>
-      services.Booking.bookEvent(user, eventId),
+      services.booking.bookEvent(user, eventId),
 
     cancelBooking: async (_, { bookingId }, { user, services }, info) =>
-      services.Booking.cancel(user, bookingId, info)
+      services.booking.cancel(user, bookingId, info)
   }
 }
