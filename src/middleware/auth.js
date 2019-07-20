@@ -1,23 +1,22 @@
 const jwt = require('jsonwebtoken')
-const debug = require('debug')('middleware:auth')
 
 module.exports = authHeader => {
   if (!authHeader) {
     return null
   }
-  const token = authHeader.split(' ')[1]
-  if (!token || token === '') {
-    return null
-  }
-  let decodedToken
+
+  const parts = authHeader.split(' ')
+
+  if (!parts.length === 2) throw new Error('Invalid header')
+
+  const [scheme, token] = parts
+
+  if (!/^Bearer$/i.test(scheme)) throw new Error('Token malformatted')
+
   try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    return { id: decodedToken.id, role: decodedToken.role }
   } catch (err) {
-    debug(err)
-    return null
+    throw err
   }
-  if (!decodedToken) {
-    return null
-  }
-  return { id: decodedToken.id, role: decodedToken.role }
 }

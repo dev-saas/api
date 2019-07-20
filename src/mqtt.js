@@ -1,5 +1,6 @@
 const mqtt = require('mqtt')
 const pubsub = require('./pubsub')
+const debug = require('debug')('mqtt')
 
 const { NEW_VALUE } = require('./graphql/subscriptions/channels')
 
@@ -15,36 +16,35 @@ client.on('connect', () => {
   client.subscribe('report')
 })
 
-client.on('message', function (topic, msg, pkt) {
+client.on('message', function(topic, msg, pkt) {
   try {
-    var value = JSON.parse(msg)
-  } catch (err) {
-    console.log(err)
-    return
-  }
-  switch (topic) {
-    case 'turnedOn':
-      pubsub.publish(NEW_VALUE, {
-        newValue: { name: `relay${value}`, value: true }
-      })
-      break
-    case 'turnedOff':
-      pubsub.publish(NEW_VALUE, {
-        newValue: { name: `relay${value}`, value: false }
-      })
-      break
-    case 'report':
-      Object.entries(value).map(entry =>
+    const value = JSON.parse(msg)
+    switch (topic) {
+      case 'turnedOn':
         pubsub.publish(NEW_VALUE, {
-          newValue: { name: entry[0], value: entry[1] }
+          newValue: { name: `relay${value}`, value: true }
         })
-      )
-      break
-    default:
-      pubsub.publish(NEW_VALUE, {
-        newValue: { name: topic, value }
-      })
-      break
+        break
+      case 'turnedOff':
+        pubsub.publish(NEW_VALUE, {
+          newValue: { name: `relay${value}`, value: false }
+        })
+        break
+      case 'report':
+        Object.entries(value).map(entry =>
+          pubsub.publish(NEW_VALUE, {
+            newValue: { name: entry[0], value: entry[1] }
+          })
+        )
+        break
+      default:
+        pubsub.publish(NEW_VALUE, {
+          newValue: { name: topic, value }
+        })
+        break
+    }
+  } catch (err) {
+    debug(err)
   }
 })
 

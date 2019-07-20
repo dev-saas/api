@@ -1,10 +1,10 @@
 exports.resolver = {
   Mutation: {
-    turnOn: async (_, { relay }, { mqtt, pubsub }) => {
+    turnOn: async (_, { relay }, { mqtt }) => {
       await mqtt.publish('/turnOn', relay.toString())
       return true
     },
-    turnOff: async (_, { relay }, { mqtt, pubsub }) => {
+    turnOff: async (_, { relay }, { mqtt }) => {
       await mqtt.publish('/turnOff', relay.toString())
       return true
     }

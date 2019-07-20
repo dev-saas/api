@@ -1,22 +1,20 @@
-const { pagination } = require('../mongodb-utils')
-
 exports.resolver = {
   Booking: {
-    event: ({ event }, _, ctx, info) =>
-      ctx.dataloaders.eventLoader(info).load(event.toString()),
+    event: ({ event }, _, { services }, info) =>
+      services.event.load(event, info),
 
-    user: ({ user }, _, ctx, info) =>
-      ctx.dataloaders.userLoader(info).load(user.toString())
+    user: ({ user }, _, { services }, info) =>
+      services.user.load(user, info)
   },
   Query: {
-    getBookings: (_, { page }, ctx, info) =>
-      pagination(ctx.connection.collection('bookings'), page, info)
+    getBookings: (_, { page }, { services }, info) =>
+      services.booking.pages.get(page, info)
   },
   Mutation: {
-    bookEvent: async (_, { eventId }, ctx) =>
-      ctx.services.Booking.bookEvent(eventId, ctx),
+    bookEvent: async (_, { eventId }, { user, services }) =>
+      services.Booking.bookEvent(user, eventId),
 
-    cancelBooking: async (_, { bookingId }, ctx, info) =>
-      ctx.services.Booking.cancel(bookingId, ctx, info)
+    cancelBooking: async (_, { bookingId }, { user, services }, info) =>
+      services.Booking.cancel(user, bookingId, info)
   }
 }

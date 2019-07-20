@@ -11,9 +11,7 @@ const pubsub = require('./pubsub')
 const mqtt = require('./mqtt')
 const app = express()
 const db = require('./database')
-const dataloaders = require('./graphql/dataloaders')
-const BookingService = require('./services/booking-service')
-const EventService = require('./services/event-service')
+const Services = require('./services')
 
 app.use(bodyParser.json())
 
@@ -30,25 +28,29 @@ app.use((req, res, next) => {
   next()
 })
 
+const services = Services(db, pubsub, mqtt)
+
 const server = new ApolloServer({
   schema: graphQLSchema,
   formatError(err) {
-    debug('graphql:error')(err)
-    return err
+    const { exception } = err.extensions
+    debug('graphql:error')(exception.stacktrace)
+    return process.env.NODE_ENV === 'production'
+      ? {
+          message: 'Sorry, try again later...'
+        }
+      : {
+          message: err.message,
+          path: err.path
+        }
   },
   context: ({ req, connection }) =>
     connection
-      ? { pubsub, dataloaders }
+      ? { pubsub, services }
       : {
           user: auth(req.headers.authorization),
-          pubsub,
-          ...db,
-          dataloaders,
           mqtt,
-          services: {
-            Booking: BookingService,
-            Event: EventService
-          },
+          services,
           recaptchaData: {
             ip: req.ip,
             key: req.headers.recaptcha

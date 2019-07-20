@@ -6,7 +6,8 @@ exports.resolver = {
       subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(NEW_EVENT)
     },
     updatedEvent: {
-      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(UPDATED_EVENT)
+      subscribe: (_, args, { pubsub }) =>
+        pubsub.asyncIterator(UPDATED_EVENT)
     },
     newValue: {
       subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(NEW_VALUE)

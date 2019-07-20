@@ -1,4 +1,4 @@
-require('newrelic')
+process.env.NEW_RELIC_LICENSE_KEY && require('newrelic')
 const app = require('./src/app')
 const debug = require('debug')('server:info')
 

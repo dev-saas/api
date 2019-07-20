@@ -29,7 +29,10 @@ userSchema.pre('save', async function(next) {
 })
 
 userSchema.statics.login = async function(email, password) {
-  const user = await this.findOne({ email: email }, { password: 1, role: 1 })
+  const user = await this.findOne(
+    { email: email },
+    { password: 1, role: 1 }
+  )
   if (!user) {
     throw new Error('User does not exist!')
   }

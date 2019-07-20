@@ -1,23 +1,41 @@
-const { infoToProjection } = require('../graphql/mongodb-utils')
+const {
+  infoToProjection,
+  pagination
+} = require('../graphql/mongodb-utils')
 
-module.exports = {
-  get: ({ user, models: { Booking } }, info) =>
-    Booking.find({ user: user.id }, infoToProjection(info)),
+const BookingService = db => {
+  const collection = db.connection.collection('bookings')
+  const pages = pagination(collection)
+  const { Booking, Event } = db.models
 
-  bookEvent: async (eventId, { user, models: { Booking, Event } }) => {
-    const fetchedEvent = await Event.findOne({ _id: eventId }, { _id: 1 })
+  const bookEvent = async (user, eventId) => {
+    const fetchedEvent = await Event.findOne(
+      { _id: eventId },
+      { _id: 1 }
+    )
     return Booking.create({
       user: user.id,
       event: fetchedEvent
     })
-  },
-  cancel: async (bookingId, { user, models: { Booking, Event } }, info) => {
+  }
+
+  const cancel = async (user, bookingId, info) => {
     try {
-      const booking = await Booking.findOne({ _id: bookingId, user: user.id })
+      const booking = await Booking.findOne({
+        _id: bookingId,
+        user: user.id
+      })
       await Booking.deleteOne({ _id: bookingId, user: user.id })
-      return Event.findOne({ _id: booking.event }, infoToProjection(info))
+      return Event.findOne(
+        { _id: booking.event },
+        infoToProjection(info)
+      )
     } catch (err) {
       throw err
     }
   }
+
+  return { bookEvent, cancel, pages }
 }
+
+module.exports = BookingService

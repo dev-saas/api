@@ -1,6 +1,6 @@
 module.exports = {
   isAuth(next, _, requires, { user }) {
-    if (!user) throw new Error('Unauthenticated')
-    return next()
+    if (user) return next()
+    throw new Error('Unauthenticated')
   }
 }

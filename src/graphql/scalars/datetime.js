@@ -6,7 +6,7 @@ const parseISO8601 = value => {
   if (isISO8601(value)) {
     return value
   }
-  throw new Error('DateTime cannot represent an invalid ISO-8601 Date string')
+  throw new Error('Invalid ISO-8601 Date string')
 }
 
 const parseLiteralISO8601 = ast => {
