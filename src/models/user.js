@@ -45,7 +45,7 @@ userSchema.statics.login = async function(email, password) {
     process.env.JWT_SECRET,
     { expiresIn: '1d' }
   )
-  return { token }
+  return token
 }
 
 userSchema.statics.createNew = async function(email, password) {

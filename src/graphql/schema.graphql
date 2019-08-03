@@ -47,10 +47,6 @@ type User {
   email: Email!
 }
 
-type AuthData {
-  token: String!
-}
-
 input EventInput {
   title: String!
   description: String!
@@ -77,7 +73,7 @@ type Query {
   getBookings(page: PageInput): BookingsConnection
     @protect(roles: [USUARIO])
 
-  login(email: Email!, password: String!): AuthData! @recaptcha
+  login(email: Email!, password: String!): String! @recaptcha
 
   myEvents(page: PageInput): EventsConnection
 
