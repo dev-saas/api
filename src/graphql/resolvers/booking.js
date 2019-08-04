@@ -7,8 +7,8 @@ exports.resolver = {
       services.user.load(user, info)
   },
   Query: {
-    getBookings: (_, { page }, { services }, info) =>
-      services.booking.pages.get(page, info)
+    getBookings: (_, { page }, { user, services }, info) =>
+      services.booking.pages.get(page, info, { user: user.id })
   },
   Mutation: {
     bookEvent: async (_, { eventId }, { user, services }) =>
