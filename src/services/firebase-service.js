@@ -1,5 +1,5 @@
 const admin = require('firebase-admin')
-
+let auth = null
 try {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -16,10 +16,11 @@ try {
       client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL
     })
   })
+  auth = admin.auth()
 } catch (err) {
   console.log(err)
 }
 
 module.exports = {
-  auth: admin.auth()
+  auth
 }
