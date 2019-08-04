@@ -9,8 +9,9 @@ const bookingSchema = new Schema(
       ref: 'Event'
     },
     user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+      type: String,
+      ref: 'User',
+      required: true
     }
   },
   { timestamps: true }

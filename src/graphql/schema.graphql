@@ -43,7 +43,7 @@ type PageInfo {
 }
 
 type User {
-  _id: ID!
+  uid: ID!
   email: Email!
 }
 
@@ -70,12 +70,9 @@ input UpdateEventInput {
 type Query {
   getEvents(page: PageInput): EventsConnection
 
-  getBookings(page: PageInput): BookingsConnection
-    @protect(roles: [USUARIO])
+  getBookings(page: PageInput): BookingsConnection @isAuth
 
-  login(email: Email!, password: String!): String! @recaptcha
-
-  myEvents(page: PageInput): EventsConnection
+  myEvents(page: PageInput): EventsConnection @isAuth
 
   status: Boolean
 }
@@ -85,8 +82,6 @@ type Mutation {
 
   updateEvent(event: UpdateEventInput!): Event! @isAuth
 
-  createUser(email: Email!, password: String!): User @recaptcha
-
   bookEvent(eventId: ID!): Booking! @isAuth
 
   cancelBooking(bookingId: ID!): Event! @isAuth
@@ -94,6 +89,8 @@ type Mutation {
   turnOn(relay: Int!): Boolean
 
   turnOff(relay: Int!): Boolean
+
+  register(token: String!): Boolean
 }
 
 type NewValue {

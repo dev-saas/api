@@ -1,11 +1,15 @@
+const { auth } = require('./firebase-service')
+
 const AuthService = db => {
   const { User } = db.models
 
-  const login = (email, password) => User.login(email, password)
+  const register = async token => {
+    const decodedToken = await auth.verifyIdToken(token)
+    await User.register(decodedToken.uid, decodedToken.email)
+    return true
+  }
 
-  const register = (email, password) => User.createNew(email, password)
-
-  return { login, register }
+  return { register }
 }
 
 module.exports = AuthService

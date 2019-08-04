@@ -20,7 +20,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS')
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Recaptcha'
+    'Content-Type, token, Recaptcha'
   )
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200)
@@ -42,11 +42,11 @@ const server = new ApolloServer({
       path: err.path
     }
   },
-  context: ({ req, connection }) =>
+  context: async ({ req, connection }) =>
     connection
       ? { pubsub, services }
       : {
-          user: auth(req.headers.authorization),
+          user: await auth(req.headers.token),
           mqtt,
           services,
           recaptchaData: {

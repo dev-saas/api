@@ -52,6 +52,15 @@ const Dataloader = Model => {
   return { Loader }
 }
 
+const DataloaderUID = Model => {
+  const Loader = info => {
+    return new DataLoader(async uids =>
+      Model.find({ uid: { $in: uids } }, infoToProjection(info))
+    )
+  }
+  return { Loader }
+}
+
 const secureUpdate = async (model, user, { _id, ...obj }, info) => {
   const updated = await model.findOneAndUpdate(
     { _id: _id, creator: user.id },
@@ -66,5 +75,6 @@ module.exports = {
   pagination,
   infoToProjection,
   Dataloader,
-  secureUpdate
+  secureUpdate,
+  DataloaderUID
 }
