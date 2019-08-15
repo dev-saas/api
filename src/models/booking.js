@@ -1,20 +1,19 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require('mongoose')
+const { addTypes, secureUpdatePlugin } = require('./plugins/secureUpdatePlugin')
 
-const Schema = mongoose.Schema
+const schema = {
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'Event'
+  }
+}
 
-const bookingSchema = new Schema(
-  {
-    event: {
-      type: Schema.Types.ObjectId,
-      ref: 'Event'
-    },
-    user: {
-      type: String,
-      ref: 'User',
-      required: true
-    }
-  },
-  { timestamps: true }
-)
+addTypes(schema)
 
-module.exports = mongoose.model('Booking', bookingSchema)
+const bookingSchema = new Schema(schema, { timestamps: true })
+
+bookingSchema.plugin(require('./plugins/paginationPlugin'))
+bookingSchema.plugin(secureUpdatePlugin)
+bookingSchema.plugin(require('./plugins/dataloaderPlugin'))
+
+module.exports = model('Booking', bookingSchema)

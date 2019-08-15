@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require('mongoose')
+const { addTypes, secureUpdatePlugin } = require('./plugins/secureUpdatePlugin')
 
-const Schema = mongoose.Schema
-
-const eventSchema = new Schema({
+const schema = {
   title: {
     type: String,
     required: true
@@ -18,11 +17,15 @@ const eventSchema = new Schema({
   date: {
     type: Date,
     required: true
-  },
-  creator: {
-    type: String,
-    required: true
   }
-})
+}
 
-module.exports = mongoose.model('Event', eventSchema)
+addTypes(schema)
+
+const eventSchema = new Schema(schema)
+
+eventSchema.plugin(secureUpdatePlugin)
+eventSchema.plugin(require('./plugins/dataloaderPlugin'))
+eventSchema.plugin(require('./plugins/paginationPlugin'))
+
+module.exports = model('Event', eventSchema)

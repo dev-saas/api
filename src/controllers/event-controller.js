@@ -1,32 +1,17 @@
 const {
-  pagination,
-  Dataloader,
-  secureUpdate
-} = require('../graphql/mongodb-utils')
-
-const {
   NEW_EVENT,
   UPDATED_EVENT
 } = require('../graphql/subscriptions/channels')
 
-const EventService = (db, pubsub) => {
-  const collection = db.connection.collection('events')
-  const pages = pagination(collection)
+module.exports = (db, pubsub) => {
   const { Event } = db.models
 
-  const loadMany = (ids, info) => {
-    Dataloader(Event)
-      .Loader(info)
-      .loadMany(ids)
-  }
-
-  const load = (id, info) =>
-    Dataloader(Event)
-      .Loader(info)
-      .load(id.toString())
+  const getPage = (page, info) => Event.getPage(page, info)
+  const loadMany = (ids, info) => Event.loadMany(ids, info)
+  const load = (id, info) => Event.load(id, info)
 
   const update = async (user, event, info) => {
-    const updatedEvent = await secureUpdate(Event, user, event, info)
+    const updatedEvent = await Event.secureUpdate(user.id, event, info)
     pubsub.publish(UPDATED_EVENT, { updatedEvent })
     return updatedEvent
   }
@@ -39,7 +24,7 @@ const EventService = (db, pubsub) => {
         description: description,
         price: +price,
         date: date,
-        creator: user.id
+        owner: user.id
       })
       pubsub.publish(NEW_EVENT, { newEvent: createdEvent })
       return createdEvent
@@ -48,7 +33,5 @@ const EventService = (db, pubsub) => {
     }
   }
 
-  return { update, create, load, loadMany, pages }
+  return { update, create, load, loadMany, getPage }
 }
-
-module.exports = EventService

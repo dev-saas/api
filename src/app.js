@@ -3,35 +3,23 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { ApolloServer } = require('apollo-server-express')
 const { createServer } = require('http')
-
-const graphQLSchema = require('./schema')
+const schema = require('./schema')
 const auth = require('./middleware/auth')
+const cors = require('./middleware/cors')
 const debug = require('debug')
 const pubsub = require('./pubsub')
 const mqtt = require('./mqtt')
 const app = express()
 const db = require('./database')
-const Services = require('./services')
+const Controllers = require('./controllers')
 
 app.use(bodyParser.json())
+app.use(cors)
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS')
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Content-Type, token, Recaptcha'
-  )
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200)
-  }
-  next()
-})
-
-const services = Services(db, pubsub, mqtt)
+const controllers = Controllers(db, pubsub, mqtt)
 
 const server = new ApolloServer({
-  schema: graphQLSchema,
+  schema,
   formatError(err) {
     if (process.env.NODE_ENV !== 'production') {
       const { exception } = err.extensions
@@ -43,12 +31,13 @@ const server = new ApolloServer({
     }
   },
   context: async ({ req, connection }) =>
-    connection
-      ? { pubsub, services }
+    connection // subscription context
+      ? { pubsub, controllers }
       : {
+          // query, mutation context
           user: await auth(req.headers.token),
           mqtt,
-          services,
+          controllers,
           recaptchaData: {
             ip: req.ip,
             key: req.headers.recaptcha
@@ -57,9 +46,7 @@ const server = new ApolloServer({
 })
 
 server.applyMiddleware({ app })
-
 const httpServer = createServer(app)
-
 server.installSubscriptionHandlers(httpServer)
 
 module.exports = httpServer

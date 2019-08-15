@@ -1,6 +1,6 @@
 exports.resolver = {
   Mutation: {
-    register: (_, { token }, { services }) =>
-      services.auth.register(token)
+    register: (_, { token }, { controllers }) =>
+      controllers.auth.register(token)
   }
 }

@@ -7,5 +7,5 @@ const directiveResolvers = require('./graphql/directives')
 module.exports = makeExecutableSchema({
   typeDefs: schema,
   resolvers: resolver,
-  directiveResolvers: directiveResolvers
+  directiveResolvers
 })

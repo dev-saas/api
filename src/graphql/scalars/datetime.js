@@ -1,30 +1,18 @@
-const { GraphQLScalarType } = require('graphql')
-
 const { isISO8601 } = require('validator')
-
-const parseISO8601 = value => {
-  if (isISO8601(value)) {
-    return value
-  }
-  throw new Error('Invalid ISO-8601 Date string')
-}
-
-const parseLiteralISO8601 = ast => {
-  return parseISO8601(ast.value)
-}
-
-const serialize = value => {
-  return new Date(value).toISOString()
-}
-
-const DateTime = new GraphQLScalarType({
-  name: 'DateTime',
-  description: 'An ISO-8601 encoded UTC date string.',
-  serialize: serialize,
-  parseValue: parseISO8601,
-  parseLiteral: parseLiteralISO8601
-})
+const { Scalar } = require('./Scalar')
+const { INVALID_DATE } = require('../error')
 
 exports.resolver = {
-  DateTime
+  DateTime: Scalar({
+    name: 'DateTime',
+    parseValue: value => {
+      if (isISO8601(value)) {
+        return value
+      }
+      throw new Error(INVALID_DATE)
+    },
+    serialize: value => {
+      return new Date(value).toISOString()
+    }
+  })
 }

@@ -13,7 +13,7 @@ scalar Email
 type Booking {
   _id: ID!
   event: Event!
-  user: User!
+  owner: User!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -24,7 +24,7 @@ type Event {
   description: String!
   price: Float!
   date: DateTime!
-  creator: User!
+  owner: User!
 }
 
 type EventsConnection {
@@ -74,6 +74,8 @@ type Query {
 
   myEvents(page: PageInput): EventsConnection @isAuth
 
+  me: User @isAuth
+
   status: Boolean
 }
 
@@ -84,7 +86,7 @@ type Mutation {
 
   bookEvent(eventId: ID!): Booking! @isAuth
 
-  cancelBooking(bookingId: ID!): Event! @isAuth
+  cancelBooking(bookingId: ID!): Boolean! @isAuth
 
   turnOn(relay: Int!): Boolean
 
