@@ -3,6 +3,9 @@
   "version": "1.3.0",
   "description": "GraphQL API",
   "main": "server.js",
+  "engines": {
+    "yarn": "1.x"
+  },
   "scripts": {
     "test": "jest --runInBand",
     "start": "node server.js",
