@@ -44,5 +44,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "yarn": "1.17.3"
   }
 }
