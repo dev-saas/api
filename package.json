@@ -7,8 +7,7 @@
     "test": "jest --runInBand",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "lint": "eslint .",
-    "heroku-prebuild": "rm yarn.lock"
+    "lint": "eslint ."
   },
   "author": "Rafael Santos",
   "license": "MIT",
