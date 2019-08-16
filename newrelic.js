@@ -34,6 +34,7 @@ exports.config = {
       'request.headers.cookie',
       'request.headers.authorization',
       'request.headers.recaptcha',
+      'request.headers.token',
       'request.headers.proxyAuthorization',
       'request.headers.setCookie*',
       'request.headers.x*',
