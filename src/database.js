@@ -5,7 +5,8 @@ require('./models')
 mongoose
   .connect(`${process.env.MONGO_URI}?retryWrites=true`, {
     useNewUrlParser: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
   })
   .catch(err => {
     debug('server:error')(err)

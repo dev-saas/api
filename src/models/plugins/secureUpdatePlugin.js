@@ -9,6 +9,8 @@ function addTypes(schema) {
 }
 
 function secureUpdatePlugin(schema) {
+  schema.index({ owner: 1 })
+
   schema.statics.secureUpdate = async function(owner, { _id, ...obj }, info) {
     const updated = await this.findOneAndUpdate({ _id, owner }, obj, {
       new: true,
