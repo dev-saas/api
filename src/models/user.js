@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require('mongoose')
 const { USER_REGISTERED } = require('../graphql/error')
-const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   uid: {
@@ -27,4 +26,4 @@ userSchema.statics.register = async function(uid, email) {
 
 userSchema.plugin(require('./plugins/dataloaderPlugin'), { uid: true })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = model('User', userSchema)
