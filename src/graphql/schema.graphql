@@ -1,5 +1,7 @@
 directive @isAuth on FIELD_DEFINITION
+directive @isOwner on FIELD_DEFINITION
 directive @recaptcha on FIELD_DEFINITION
+directive @private on FIELD_DEFINITION
 directive @protect(roles: [Role]) on FIELD_DEFINITION
 
 enum Role {
@@ -9,32 +11,22 @@ enum Role {
 
 scalar DateTime
 scalar Email
+scalar Message
+scalar Username
 
-type Booking {
-  _id: ID!
-  event: Event!
-  owner: User!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type Event {
-  _id: ID!
-  title: String!
-  description: String!
-  price: Float!
-  date: DateTime!
-  owner: User!
-}
-
-type EventsConnection {
+type CommentsConnection {
   pageInfo: PageInfo!
-  edges: [Event]
+  edges: [Comment]
 }
 
-type BookingsConnection {
+type PostsConnection {
   pageInfo: PageInfo!
-  edges: [Booking]
+  edges: [Post]
+}
+
+type UsersConnection {
+  pageInfo: PageInfo!
+  edges: [User]
 }
 
 type PageInfo {
@@ -42,16 +34,43 @@ type PageInfo {
   cursor: String!
 }
 
-type User {
-  uid: ID!
-  email: Email!
+type Comment {
+  _id: ID
+  owner: User
+  comment: Message
+  post: Post
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
-input EventInput {
-  title: String!
-  description: String!
-  price: Float!
-  date: DateTime!
+type Post {
+  _id: ID
+  owner: User
+  message: Message
+  comments(page: PageInput): CommentsConnection
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Notification {
+  _id: ID
+  message: Message
+}
+
+type User {
+  uid: ID!
+  username: Username
+  email: Email @isOwner
+  private: Boolean
+  notifications: [Notification]
+  following(page: PageInput): UsersConnection
+  followers(page: PageInput): UsersConnection
+  blocked: [User] @isOwner
+  posts(page: PageInput): PostsConnection
+}
+
+input NewPostInput {
+  message: Message!
 }
 
 input PageInput {
@@ -59,51 +78,59 @@ input PageInput {
   cursor: String
 }
 
-input UpdateEventInput {
+input UpdatePostInput {
   _id: ID!
-  title: String
-  description: String
-  price: Float
-  date: DateTime
+  message: Message
+}
+
+input CommentPostInput {
+  post: ID!
+  comment: Message
+}
+
+input UpdateUserInput {
+  username: Username
+  private: Boolean
 }
 
 type Query {
-  getEvents(page: PageInput): EventsConnection
+  posts(page: PageInput): PostsConnection
 
-  getBookings(page: PageInput): BookingsConnection @isAuth
-
-  myEvents(page: PageInput): EventsConnection @isAuth
+  post(id: ID!): Post
 
   me: User @isAuth
 
-  status: Boolean
+  user(username: Username!): User
+
+  users(username: Username!, page: PageInput): UsersConnection
 }
 
 type Mutation {
-  createEvent(eventInput: EventInput!): Event! @isAuth
+  register(token: String!, username: Username!): Boolean @recaptcha
 
-  updateEvent(event: UpdateEventInput!): Event! @isAuth
+  updateUser(user: UpdateUserInput): User @isAuth
 
-  bookEvent(eventId: ID!): Booking! @isAuth
+  newPost(post: NewPostInput!): Post! @isAuth
 
-  cancelBooking(bookingId: ID!): Boolean! @isAuth
+  updatePost(post: UpdatePostInput!): Post! @isAuth
 
-  turnOn(relay: Int!): Boolean
+  deletePost(id: ID!): Post! @isAuth
 
-  turnOff(relay: Int!): Boolean
+  commentPost(comment: CommentPostInput!): Comment! @isAuth
 
-  register(token: String!): Boolean
-}
+  follow(uid: ID!): Boolean @isAuth
 
-type NewValue {
-  name: String!
-  value: Float!
+  # unfollow(id: ID!): Boolean @isAuth
+
+  # block(id: ID!): Boolean @isAuth
+
+  # unblock(id: ID!): Boolean @isAuth
 }
 
 type Subscription {
-  newEvent: Event!
-
-  updatedEvent: Event!
-
-  newValue: NewValue!
+  newPost: Post!
+  updatedPost(post: ID!): Post!
+  newComment(post: ID!): Comment! @isAuth
+  updatedComment(comment: ID!): Comment!
+  newNotification: Notification!
 }

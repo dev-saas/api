@@ -1,8 +1,9 @@
-const { WRONG_ROLE, UNAUTHENTICATED } = require('../error')
+const { WRONG_ROLE } = require('../error')
+const { isAuth } = require('./isAuth')
 
 module.exports = {
-  protect(next, _, { roles }, { user }) {
-    if (!user) throw new Error(UNAUTHENTICATED)
+  protect (next, _, { roles }, { user }) {
+    isAuth(next, null, null, { user })
 
     if (!roles.includes(user.role)) throw new Error(WRONG_ROLE)
 

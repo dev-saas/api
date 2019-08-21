@@ -1,16 +1,16 @@
-const { NEW_EVENT, UPDATED_EVENT, NEW_VALUE } = require('./channels')
+const { withFilter } = require('graphql-subscriptions')
 
 exports.resolver = {
   Subscription: {
-    newEvent: {
-      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(NEW_EVENT)
-    },
-    updatedEvent: {
-      subscribe: (_, args, { pubsub }) =>
-        pubsub.asyncIterator(UPDATED_EVENT)
-    },
-    newValue: {
-      subscribe: (_, args, { pubsub }) => pubsub.asyncIterator(NEW_VALUE)
+    newNotification: {
+      resolve: ({ newNotification }, _, { controllers }, info) =>
+        controllers.comment.load(newNotification._id, info),
+
+      subscribe: withFilter(
+        (_, args, { controllers }) => controllers.comment.newSubscription(),
+        ({ newNotification }, params, { user, controllers }) =>
+          controllers.subscription.check(newNotification.owner, params.user, user)
+      )
     }
   }
 }

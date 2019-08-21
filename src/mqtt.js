@@ -16,7 +16,7 @@ client.on('connect', () => {
   client.subscribe('report')
 })
 
-client.on('message', function(topic, msg, pkt) {
+client.on('message', function (topic, msg, pkt) {
   try {
     const value = JSON.parse(msg)
     switch (topic) {

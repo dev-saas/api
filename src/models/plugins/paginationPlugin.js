@@ -1,26 +1,25 @@
-const { infoToProjection } = require('../utils/mongodb-utils')
 const ObjectId = require('mongodb').ObjectID
 
-module.exports = function(schema) {
-  schema.statics.getPage = async function(page, info, params = undefined) {
+module.exports = function (schema) {
+  schema.statics.getPage = async function (page = {}, params = undefined, key = '_id') {
     const pageSize = page.pageSize || 10
     const cursor = page.cursor || undefined
+
     if (cursor && params) {
-      params = { $and: [{ _id: { $gt: ObjectId(cursor) }, ...params }] }
+      params = { $and: [{ _id: { $lt: ObjectId(cursor) }, ...params }] }
     } else if (cursor) {
-      params = { _id: { $gt: ObjectId(cursor) } }
+      params = { _id: { $lt: ObjectId(cursor) } }
     }
 
-    const edges = await this.find(params, infoToProjection(info)).limit(
-      pageSize
-    )
-    const response = {
+    const edges = await this.find(params, `${key}`)
+      .sort({ createdAt: -1 })
+      .limit(pageSize)
+    return {
       pageInfo: {
         hasNextPage: pageSize <= edges.length,
         cursor: edges[0] ? edges.slice(-1)[0]._id : ''
       },
-      edges: edges.map(({ _id }) => _id)
+      edges: edges.map(edge => edge[`${key}`])
     }
-    return response
   }
 }

@@ -1,5 +1,5 @@
 const path = require('path')
-const { makeExecutableSchema } = require('graphql-tools')
+const { makeExecutableSchema } = require('apollo-server-express')
 const glue = require('schemaglue')
 const { schema, resolver } = glue(path.join(__dirname, 'graphql'))
 const directiveResolvers = require('./graphql/directives')

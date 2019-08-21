@@ -8,16 +8,16 @@ const recaptcha = new reCAPTCHA({
 })
 
 module.exports = {
-  async recaptcha(next, _, requires, { recaptchaData }) {
+  async recaptcha (next, _, requires, { recaptchaData }) {
     const { key, ip } = recaptchaData
-    if (!key || key === '') {
-      throw new Error(NO_RECAPTCHA)
-    }
+
+    if (!key || key === '') throw new Error(NO_RECAPTCHA)
+
     try {
       await recaptcha.validate(key, ip)
+      return next()
     } catch (err) {
       throw new Error(INVALID_RECAPTCHA)
     }
-    return next()
   }
 }
