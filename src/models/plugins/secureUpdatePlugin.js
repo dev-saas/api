@@ -1,5 +1,5 @@
 const { NOT_FOUND } = require('../../graphql/error')
-const { infoToProjection } = require('../utils/mongodb-utils')
+const infoToProjection = require('infotoprojection')
 
 function addTypes (schema) {
   schema.owner = {

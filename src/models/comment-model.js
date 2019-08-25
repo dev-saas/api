@@ -1,12 +1,12 @@
 const { Schema, model } = require('mongoose')
+const paginationPlugin = require('mongoose-plugin-cursor-pagination')
+const dataloaderPlugin = require('mongoose-plugin-dataloader')
 const {
-  dataloaderPlugin,
-  paginationPlugin,
   secureUpdatePlugin: { secureUpdatePlugin, addTypes }
 } = require('./plugins')
 
 const schema = {
-  comment: {
+  message: {
     type: String,
     required: true
   },

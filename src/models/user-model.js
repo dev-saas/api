@@ -1,7 +1,8 @@
 const { Schema, model } = require('mongoose')
 const { USER_REGISTERED, NOT_FOUND } = require('../graphql/error')
-const { infoToProjection } = require('./utils/mongodb-utils')
-const { dataloaderPlugin, paginationPlugin } = require('./plugins')
+const paginationPlugin = require('mongoose-plugin-cursor-pagination')
+const dataloaderPlugin = require('mongoose-plugin-dataloader')
+const infoToProjection = require('infotoprojection')
 
 const schema = {
   uid: {
@@ -61,8 +62,8 @@ userSchema.statics.isPrivate = async function (params) {
   return user.private
 }
 
-userSchema.statics.findByUID = function (uid, info, params) {
-  return this.findOne({ uid }, params || infoToProjection(info))
+userSchema.statics.findByUID = function (uid, info, projection) {
+  return this.findOne({ uid }, projection || infoToProjection(info))
 }
 
 userSchema.statics.findByUsername = function (username, info) {

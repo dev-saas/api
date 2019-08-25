@@ -1,6 +1,6 @@
-const { NEW_COMMENT, UPDATED_COMMENT } = require('../graphql/subscriptions/channels')
+const { NEW_COMMENT, UPDATED_COMMENT } = require('../graphql/channels')
 
-module.exports = ({ Comment, Post }, pubsub) => {
+module.exports = ({ mongo: { Comment, Post }, pubsub }) => {
   return {
     newSubscription: () => pubsub.asyncIterator(NEW_COMMENT),
 

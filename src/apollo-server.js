@@ -1,13 +1,9 @@
-/* eslint-disable indent */
 const { ApolloServer } = require('apollo-server-express')
 const schema = require('./schema')
 const auth = require('./middleware/auth')
 const debug = require('debug')
-const pubsub = require('./pubsub')
-const mqtt = require('./mqtt')
-const db = require('./database')
-
-const controllers = require('./controllers')(db, pubsub, mqtt)
+const services = require('./services')
+const controllers = require('./controllers')(services)
 
 module.exports = new ApolloServer({
   schema,
@@ -23,14 +19,17 @@ module.exports = new ApolloServer({
   },
   context: async ({ req, connection }) =>
     connection // subscription context
-      ? { controllers, user: await auth(connection.context.headers.token) }
+      ? {
+        controllers,
+        user: await auth(connection.context.headers.token)
+      }
       : {
-          // query, mutation context
-          user: await auth(req.headers.token),
-          controllers,
-          recaptchaData: {
-            ip: req.ip,
-            key: req.headers.recaptcha
-          }
+        // query, mutation context
+        user: await auth(req.headers.token),
+        controllers,
+        recaptchaData: { // for @recaptcha directive
+          ip: req.ip,
+          key: req.headers.recaptcha
         }
+      }
 })

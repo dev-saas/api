@@ -1,33 +1,29 @@
-const loadPlugins = (model, db, controller) => {
+// inject getPage, load and loadMany to controllers
+const loadPlugins = (model, models, controller) => {
   model = model.charAt(0).toUpperCase() + model.slice(1)
 
-  controller.getPage = (page, params, key = '_id') => db[model].getPage(page, params, key)
-
-  controller.load = (id, info, uid = false) => db[model].load(id, info, { uid })
-
-  controller.loadMany = (ids, info, uid = false) => db[model].loadMany(ids, info, { uid })
+  controller.getPage = (page, params, key = '_id') => models[model].getPage(page, params, key)
+  controller.load = (id, info, key) => models[model].load(id, info, key)
+  controller.loadMany = (ids, info, key) => models[model].loadMany(ids, info, key)
 
   return controller
 }
 
-module.exports = (db, pubsub, mqtt) => {
+// inject the services to the controllers,
+// and exports all controllers with -controller.js in name
+module.exports = (services) => {
   let controllers = {}
-
   require('fs')
     .readdirSync(__dirname)
-    .forEach(function (file) {
-      if (file.includes('.js') && !file.includes('index')) {
-        let controller = file.replace('-controller.js', '')
-        loadPlugins(
-          controller,
-          db.models,
-          (controllers[file.replace('-controller.js', '')] = require('./' + file)(
-            db.models,
-            pubsub,
-            mqtt
-          ))
-        )
-      }
+    .forEach(file => {
+      if (!file.includes('-controller.js')) return
+
+      let name = file.replace('-controller.js', '')
+      loadPlugins(
+        name,
+        services.mongo,
+        controllers[name] = require('./' + file)(services)
+      )
     })
 
   return controllers

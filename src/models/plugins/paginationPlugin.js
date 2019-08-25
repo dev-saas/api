@@ -1,25 +1,33 @@
 const ObjectId = require('mongodb').ObjectID
 
 module.exports = function (schema) {
-  schema.statics.getPage = async function (page = {}, params = undefined, key = '_id') {
-    const pageSize = page.pageSize || 10
-    const cursor = page.cursor || undefined
+  schema.statics.getPage = async function (
+    page = {
+      size: 10,
+      cursor: undefined
+    },
+    params = {},
+    key = '_id',
+    sort = -1
+  ) {
+    const { size, cursor } = page
 
-    if (cursor && params) {
-      params = { $and: [{ _id: { $lt: ObjectId(cursor) }, ...params }] }
-    } else if (cursor) {
-      params = { _id: { $lt: ObjectId(cursor) } }
+    if (cursor) {
+      if (sort == -1) {
+        params = { _id: { $lt: ObjectId(cursor) }, ...params }
+      } else {
+        params = { _id: { $gt: ObjectId(cursor) }, ...params }
+      }
     }
 
-    const edges = await this.find(params, `${key}`)
-      .sort({ createdAt: -1 })
-      .limit(pageSize)
+    const nodes = await this.find(params, key)
+      .sort({ _id: sort })
+      .limit(size)
+
     return {
-      pageInfo: {
-        hasNextPage: pageSize <= edges.length,
-        cursor: edges[0] ? edges.slice(-1)[0]._id : ''
-      },
-      edges: edges.map(edge => edge[`${key}`])
+      cursor: (nodes[0] && nodes.slice(-1)[0]._id) || '',
+      hasNextPage: nodes.length === size,
+      nodes: nodes.map(node => node[key])
     }
   }
 }

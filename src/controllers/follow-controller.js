@@ -1,8 +1,8 @@
-module.exports = ({ Follow, User }) => {
+module.exports = ({ mongo: { Follow, User } }) => {
   return {
-    followers: async (uid, page) => Follow.getPage(page, { following: uid }, 'owner'),
+    followers: (uid, page) => Follow.getPage(page, { following: uid }, 'owner'),
 
-    following: async (uid, page) => Follow.getPage(page, { owner: uid }, 'following'),
+    following: (uid, page) => Follow.getPage(page, { owner: uid }, 'following'),
 
     unfollow: (owner, following) => Follow.findOneAndRemove({ owner, following }),
 

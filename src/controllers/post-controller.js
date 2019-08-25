@@ -1,6 +1,6 @@
-const { NEW_POST, UPDATED_POST } = require('../graphql/subscriptions/channels')
+const { NEW_POST, UPDATED_POST } = require('../graphql/channels')
 
-module.exports = ({ Post, User }, pubsub) => {
+module.exports = ({ mongo: { Post, User }, pubsub }) => {
   return {
     findById: (_id, info) => Post.findById(_id, info),
 

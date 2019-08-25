@@ -3,7 +3,7 @@ type User inherits Node {
   username: Username
   email: Email @isOwner
   private: Boolean
-  notifications: [Notification]
+  notifications(page: PageInput): Page<Notification> @isOwner
   following(page: PageInput): Page<User> @private
   followers(page: PageInput): Page<User> @private
   blocked(page: PageInput): Page<User> @isOwner

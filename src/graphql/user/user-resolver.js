@@ -1,7 +1,7 @@
 exports.resolver = {
-  UsersConnection: {
-    edges: ({ edges }, _, { controllers }, info) =>
-      controllers.user.loadMany(edges, info, true)
+  Users: {
+    nodes: ({ nodes }, _, { controllers }, info) =>
+      controllers.user.loadMany(nodes, info, 'uid')
   },
 
   User: {
@@ -14,8 +14,8 @@ exports.resolver = {
     posts: ({ _id }, { page }, { controllers }, info) =>
       controllers.post.findByUserID(_id, page, info),
 
-    notifications: ({ _id }, _, { controllers }, info) =>
-      controllers.notification.findByUserID(_id, info)
+    notifications: ({ uid }, { page }, { controllers }, info) =>
+      controllers.notification.findByUserUID(uid, page, info)
   },
 
   Query: {
@@ -30,11 +30,13 @@ exports.resolver = {
   },
 
   Mutation: {
-    register: (_, { token }, { controllers }) => controllers.user.register(token),
+    register: (_, { token }, { controllers }) =>
+      controllers.user.register(token),
 
     updateUser: (_, params, { user, controllers }, info) =>
       controllers.user.update(user, params.user, info),
 
-    follow: (_, { uid }, { user, controllers }) => controllers.follow.follow(user, uid)
+    follow: (_, { uid }, { user, controllers }) =>
+      controllers.follow.follow(user, uid)
   }
 }

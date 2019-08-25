@@ -3,14 +3,15 @@ const { withFilter } = require('graphql-subscriptions')
 exports.resolver = {
   Comment: {
     owner: ({ owner }, _, { controllers }, info) =>
-      controllers.user.load(owner, info, true),
+      controllers.user.load(owner, info, 'uid'),
 
-    post: ({ post }, _, { controllers }, info) => controllers.post.load(post, info)
+    post: ({ post }, _, { controllers }, info) =>
+      controllers.post.load(post, info)
   },
 
-  CommentsConnection: {
-    edges: ({ edges }, _, { controllers }, info) =>
-      controllers.comment.loadMany(edges, info)
+  Comments: {
+    nodes: ({ nodes }, _, { controllers }, info) =>
+      controllers.comment.loadMany(nodes, info)
   },
 
   Mutation: {
@@ -25,8 +26,7 @@ exports.resolver = {
 
       subscribe: withFilter(
         (_, args, { controllers }) => controllers.comment.newSubscription(),
-        ({ newComment }, { post }, { controllers }) =>
-          controllers.subscription.check(newComment.post, post)
+        ({ newComment }, { post }) => newComment.post == post
       )
     },
 
@@ -36,8 +36,7 @@ exports.resolver = {
 
       subscribe: withFilter(
         (_, args, { controllers }) => controllers.comment.updateSubscription(),
-        ({ updatedComment }, { comment }, { controllers }) =>
-          controllers.subscription.check(updatedComment._id, comment)
+        ({ updatedComment }, { comment }) => updatedComment._id == comment
       )
     }
   }

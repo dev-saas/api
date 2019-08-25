@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const debug = require('debug')
-require('./models')
+require('../models')
 
 mongoose
   .connect(`${process.env.MONGO_URI}?retryWrites=true`, {
@@ -12,7 +12,4 @@ mongoose
     debug('server:error')(err)
   })
 
-module.exports = {
-  connection: mongoose.connection,
-  models: mongoose.models
-}
+module.exports = mongoose.models

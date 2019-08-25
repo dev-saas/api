@@ -1,6 +1,4 @@
-const { auth } = require('../services/firebase-service')
-
-module.exports = ({ User }) => {
+module.exports = ({ mongo: { User }, firebase: { auth } }) => {
   return {
     register: async token => {
       const { uid, email } = await auth.verifyIdToken(token)

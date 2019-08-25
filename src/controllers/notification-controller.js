@@ -1,8 +1,8 @@
-const { NEW_NOTIFICATION } = require('../graphql/subscriptions/channels')
+const { NEW_NOTIFICATION } = require('../graphql/channels')
 
-module.exports = ({ Notification }, pubsub) => {
+module.exports = ({ mongo: { Notification }, pubsub }) => {
   return {
-    findByUserUID: (uid, info) => Notification.findByOwner(uid, info),
+    findByUserUID: (uid, page) => Notification.getPage(page, { owner: uid }),
 
     newNotification: async (owner, sender, message) => {
       let newNotification = await Notification.create({

@@ -1,9 +1,9 @@
-const dataloaderPlugin = require('./dataloaderPlugin')
 const paginationPlugin = require('./paginationPlugin')
 const secureUpdatePlugin = require('./secureUpdatePlugin')
+const dataloaderPlugin = require('./dataloaderPlugin')
 
 module.exports = {
-  dataloaderPlugin,
   paginationPlugin,
-  secureUpdatePlugin
+  secureUpdatePlugin,
+  dataloaderPlugin
 }
