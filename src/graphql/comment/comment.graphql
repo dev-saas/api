@@ -1,0 +1,17 @@
+type Comment inherits Node, Twit {
+  post: Post
+}
+
+input CommentPostInput {
+  post: ID!
+  comment: Message
+}
+
+type Mutation {
+  commentPost(comment: CommentPostInput!): Comment! @isAuth
+}
+
+type Subscription {
+  newComment(post: ID!): Comment! @isAuth
+  updatedComment(comment: ID!): Comment!
+}

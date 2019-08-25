@@ -1,12 +1,11 @@
-directive @isAuth on FIELD_DEFINITION
+directive @isAuth(roles: [Role]) on FIELD_DEFINITION
 directive @isOwner on FIELD_DEFINITION
 directive @recaptcha on FIELD_DEFINITION
 directive @private on FIELD_DEFINITION
-directive @protect(roles: [Role]) on FIELD_DEFINITION
 
 enum Role {
   ADMIN
-  USUARIO
+  USER
 }
 
 scalar DateTime
@@ -14,19 +13,15 @@ scalar Email
 scalar Message
 scalar Username
 
-type CommentsConnection {
-  pageInfo: PageInfo!
-  edges: [Comment]
+type Twit {
+  owner: User
+  message: Message
 }
 
-type PostsConnection {
-  pageInfo: PageInfo!
-  edges: [Post]
-}
-
-type UsersConnection {
-  pageInfo: PageInfo!
-  edges: [User]
+type Node {
+  _id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type PageInfo {
@@ -34,103 +29,14 @@ type PageInfo {
   cursor: String!
 }
 
-type Comment {
-  _id: ID
-  owner: User
-  comment: Message
-  post: Post
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type Post {
-  _id: ID
-  owner: User
-  message: Message
-  comments(page: PageInput): CommentsConnection
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type Notification {
-  _id: ID
-  message: Message
-}
-
-type User {
-  uid: ID!
-  username: Username
-  email: Email @isOwner
-  private: Boolean
-  notifications: [Notification]
-  following(page: PageInput): UsersConnection
-  followers(page: PageInput): UsersConnection
-  blocked: [User] @isOwner
-  posts(page: PageInput): PostsConnection
-}
-
-input NewPostInput {
-  message: Message!
+@alias((T) => T + 's')
+type Page<T> {
+	nodes: [T]
+  hasNextPage: Boolean
+	cursor: ID
 }
 
 input PageInput {
-  pageSize: Int
+  size: Int
   cursor: String
-}
-
-input UpdatePostInput {
-  _id: ID!
-  message: Message
-}
-
-input CommentPostInput {
-  post: ID!
-  comment: Message
-}
-
-input UpdateUserInput {
-  username: Username
-  private: Boolean
-}
-
-type Query {
-  posts(page: PageInput): PostsConnection
-
-  post(id: ID!): Post
-
-  me: User @isAuth
-
-  user(username: Username!): User
-
-  users(username: Username!, page: PageInput): UsersConnection
-}
-
-type Mutation {
-  register(token: String!, username: Username!): Boolean @recaptcha
-
-  updateUser(user: UpdateUserInput): User @isAuth
-
-  newPost(post: NewPostInput!): Post! @isAuth
-
-  updatePost(post: UpdatePostInput!): Post! @isAuth
-
-  deletePost(id: ID!): Post! @isAuth
-
-  commentPost(comment: CommentPostInput!): Comment! @isAuth
-
-  follow(uid: ID!): Boolean @isAuth
-
-  # unfollow(id: ID!): Boolean @isAuth
-
-  # block(id: ID!): Boolean @isAuth
-
-  # unblock(id: ID!): Boolean @isAuth
-}
-
-type Subscription {
-  newPost: Post!
-  updatedPost(post: ID!): Post!
-  newComment(post: ID!): Comment! @isAuth
-  updatedComment(comment: ID!): Comment!
-  newNotification: Notification!
 }

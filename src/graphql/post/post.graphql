@@ -1,0 +1,28 @@
+type Post inherits Node, Twit {
+  comments(page: PageInput): Page<Comment>
+}
+
+input NewPostInput {
+  message: Message!
+}
+
+input UpdatePostInput {
+  _id: ID!
+  message: Message
+}
+
+type Query {
+  posts(page: PageInput): Page<Post>
+  post(id: ID!): Post
+}
+
+type Mutation {
+  newPost(post: NewPostInput!): Post! @isAuth
+  updatePost(post: UpdatePostInput!): Post! @isAuth
+  deletePost(id: ID!): Post! @isAuth
+}
+
+type Subscription {
+  newPost: Post!
+  updatedPost(post: ID!): Post!
+}

@@ -1,0 +1,7 @@
+type Notification inherits Node {
+  message: Message
+}
+
+type Subscription {
+  newNotification: Notification!
+}
