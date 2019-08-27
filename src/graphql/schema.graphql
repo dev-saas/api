@@ -1,40 +1,27 @@
-directive @isAuth on FIELD_DEFINITION
+directive @isAuth(roles: [Role]) on FIELD_DEFINITION
+directive @isOwner on FIELD_DEFINITION
 directive @recaptcha on FIELD_DEFINITION
-directive @protect(roles: [Role]) on FIELD_DEFINITION
+directive @private on FIELD_DEFINITION
 
 enum Role {
   ADMIN
-  USUARIO
+  USER
 }
 
 scalar DateTime
 scalar Email
+scalar Message
+scalar Username
 
-type Booking {
+type Twit {
+  owner: User
+  message: Message
+}
+
+type Node {
   _id: ID!
-  event: Event!
-  owner: User!
   createdAt: DateTime!
   updatedAt: DateTime!
-}
-
-type Event {
-  _id: ID!
-  title: String!
-  description: String!
-  price: Float!
-  date: DateTime!
-  owner: User!
-}
-
-type EventsConnection {
-  pageInfo: PageInfo!
-  edges: [Event]
-}
-
-type BookingsConnection {
-  pageInfo: PageInfo!
-  edges: [Booking]
 }
 
 type PageInfo {
@@ -42,68 +29,14 @@ type PageInfo {
   cursor: String!
 }
 
-type User {
-  uid: ID!
-  email: Email!
-}
-
-input EventInput {
-  title: String!
-  description: String!
-  price: Float!
-  date: DateTime!
+@alias((T) => T + 's')
+type Page<T> {
+	nodes: [T]
+  hasNextPage: Boolean
+	cursor: ID
 }
 
 input PageInput {
-  pageSize: Int
+  size: Int
   cursor: String
-}
-
-input UpdateEventInput {
-  _id: ID!
-  title: String
-  description: String
-  price: Float
-  date: DateTime
-}
-
-type Query {
-  getEvents(page: PageInput): EventsConnection
-
-  getBookings(page: PageInput): BookingsConnection @isAuth
-
-  myEvents(page: PageInput): EventsConnection @isAuth
-
-  me: User @isAuth
-
-  status: Boolean
-}
-
-type Mutation {
-  createEvent(eventInput: EventInput!): Event! @isAuth
-
-  updateEvent(event: UpdateEventInput!): Event! @isAuth
-
-  bookEvent(eventId: ID!): Booking! @isAuth
-
-  cancelBooking(bookingId: ID!): Boolean! @isAuth
-
-  turnOn(relay: Int!): Boolean
-
-  turnOff(relay: Int!): Boolean
-
-  register(token: String!): Boolean
-}
-
-type NewValue {
-  name: String!
-  value: Float!
-}
-
-type Subscription {
-  newEvent: Event!
-
-  updatedEvent: Event!
-
-  newValue: NewValue!
 }

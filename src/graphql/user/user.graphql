@@ -1,0 +1,31 @@
+type User inherits Node {
+  uid: ID!
+  username: Username
+  email: Email @isOwner
+  private: Boolean
+  notifications(page: PageInput): Page<Notification> @isOwner
+  following(page: PageInput): Page<User> @private
+  followers(page: PageInput): Page<User> @private
+  blocked(page: PageInput): Page<User> @isOwner
+  posts(page: PageInput): Page<Post> @private
+}
+
+input UpdateUserInput {
+  username: Username
+  private: Boolean
+}
+
+type Query {
+  me: User @isAuth
+  user(username: Username!): User
+  users(username: Username!, page: PageInput): Page<User>
+}
+
+type Mutation {
+  register(token: String!, username: Username!): Boolean
+  updateUser(user: UpdateUserInput): User @isAuth
+  follow(uid: ID!): Boolean @isAuth
+  # unfollow(id: ID!): Boolean @isAuth
+  # block(id: ID!): Boolean @isAuth
+  # unblock(id: ID!): Boolean @isAuth
+}

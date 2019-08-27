@@ -1,17 +1,17 @@
 const { NOT_FOUND } = require('../../graphql/error')
-const { infoToProjection } = require('../utils/mongodb-utils')
+const infoToProjection = require('infotoprojection')
 
-function addTypes(schema) {
+function addTypes (schema) {
   schema.owner = {
     type: String,
     required: true
   }
 }
 
-function secureUpdatePlugin(schema) {
+function secureUpdatePlugin (schema) {
   schema.index({ owner: 1 })
 
-  schema.statics.secureUpdate = async function(owner, { _id, ...obj }, info) {
+  schema.statics.secureUpdate = async function (owner, { _id, ...obj }, info) {
     const updated = await this.findOneAndUpdate({ _id, owner }, obj, {
       new: true,
       projection: infoToProjection(info)
@@ -20,25 +20,29 @@ function secureUpdatePlugin(schema) {
     return updated
   }
 
-  schema.statics.secureRemove = async function(owner, _id) {
+  schema.statics.findById = function (_id, info) {
+    return this.findOne({ _id }, infoToProjection(info))
+  }
+
+  schema.statics.secureRemove = async function (owner, _id) {
     const deleted = await this.deleteOne({ _id, owner })
     if (deleted.deletedCount < 1) throw new Error(NOT_FOUND)
     return true
   }
 
-  schema.statics.secureFind = async function(owner, _id) {
+  schema.statics.secureFind = async function (owner, _id) {
     const res = await this.findOne({ _id, owner })
     if (!res) throw new Error(NOT_FOUND)
     return res
   }
 
-  schema.statics.findByOwner = async function(owner, info) {
+  schema.statics.findByOwner = async function (owner, info) {
     const res = await this.find({ owner }, infoToProjection(info))
     if (!res) throw new Error(NOT_FOUND)
     return res
   }
 
-  schema.statics.exists = async function(_id) {
+  schema.statics.exists = async function (_id) {
     const res = await this.findOne({ _id }, { _id })
     if (!res) throw new Error(NOT_FOUND)
     return res

@@ -1,6 +1,4 @@
 module.exports = {
-  extends: 'standard',
-  rules: {
-    'space-before-function-paren': 0
-  }
-}
+  extends: "standard",
+  rules: { eqeqeq: "off" }
+};

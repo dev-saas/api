@@ -1,0 +1,21 @@
+{
+  "ignore": ["test/"],
+  "ext": "js, graphql",
+  "env": {
+    "MONGO_URI": "mongodb://user:password@ds11123.mlab.com:11123/heroku_233dsa",
+    "REDIS_PASSWORD": "password",
+    "REDIS_HOST": "redis-22345.c10.us-east-1-2.ec2.cloud.redislabs.com",
+    "REDIS_PORT": 22345,
+    "DEBUG": "graphql:* server:* middleware:*",
+    "RECAPTCHA_SECRET_KEY": "6Ldv8ZkUAAAAAJxKuoNX_yegDv0iK3rE5tgGhJKm",
+    "RECAPTCHA_SITE_KEY": "6Ldv8ZkUAAAAAAgGwDSL1kYT_IiESvXxdJlEhher",
+    "CLOUDMQTT_URL": "mqtt://user:password@m77.cloudmqtt.com:23500",
+    "FIREBASE_PROJECT_ID": "firebaseid",
+    "FIREBASE_PRIVATE_KEY_ID": "firebase-private-key-id",
+    "FIREBASE_PRIVATE_KEY": "private key without -----BEGIN PRIVATE KEY-----\n and \n-----END PRIVATE KEY-----\n",
+    "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yp8gr@asdasdasd.iam.gserviceaccount.com",
+    "FIREBASE_CLIENT_ID": "242342342342342324",
+    "FIREBASE_CLIENT_X509_CERT_URL": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-yp8gr%40asdasdasdasd.iam.gserviceaccount.com"
+  },
+  "exec": "node"
+}

@@ -1,5 +1,0 @@
-module.exports = {
-  NEW_EVENT: 'NEW_EVENT',
-  UPDATED_EVENT: 'UPDATED_EVENT',
-  NEW_VALUE: 'NEW_VALUE'
-}

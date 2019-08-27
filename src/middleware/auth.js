@@ -1,9 +1,10 @@
 const { auth } = require('../services/firebase-service')
 
 module.exports = async token => {
+  if (!token) return null
   try {
-    const decodedToken = await auth.verifyIdToken(token)
-    return { id: decodedToken.uid }
+    const { uid } = await auth.verifyIdToken(token)
+    return uid
   } catch (err) {
     return null
   }

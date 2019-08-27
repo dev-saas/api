@@ -19,5 +19,6 @@ admin.initializeApp({
 })
 
 module.exports = {
-  auth: admin.auth()
+  auth: admin.auth(),
+  messaging: admin.messaging()
 }

@@ -1,6 +1,7 @@
-# API
+# GraphQL API
+dsfsf
 
-# Development
+## Development
 Choose the right branch in this repository.
 
 Rename nodemon.json.example to nodemon.json
@@ -15,4 +16,22 @@ npm install
 Run the server
 ```sh
 npm run dev
+```
+
+
+```bash
+.
+└── src
+    ├── controllers
+    ├── graphql
+    │   ├── _directives
+    │   ├── _scalars
+    │   ├── comment
+    │   ├── notification
+    │   ├── post
+    │   └── user
+    ├── middleware
+    ├── models
+    │   └── plugins
+    └── services
 ```
