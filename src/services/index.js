@@ -1,4 +1,4 @@
-// exports all directives
+// exports all services
 let services = {}
 
 require('fs')

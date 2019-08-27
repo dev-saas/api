@@ -4,7 +4,7 @@ type Comment inherits Node, Twit {
 
 input CommentPostInput {
   post: ID!
-  comment: Message
+  message: Message
 }
 
 type Mutation {
