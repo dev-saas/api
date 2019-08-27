@@ -4411,16 +4411,7 @@ mongodb@3.2.7:
     mongodb-core "3.2.7"
     safe-buffer "^5.1.2"
 
-mongodb@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.3.0.tgz#3ec6fa6260405b16fe76cc37b5d09684d13d8c11"
-  integrity sha512-QYa8YEN5uiJyIFdnn1vmBtiSveyygmQghsaL/RDnHqUzjGvkYe0vRg6UikCKba06cg6El/Lu7qzOYnR3vMhwlA==
-  dependencies:
-    bson "^1.1.1"
-    require_optional "^1.0.1"
-    safe-buffer "^5.1.2"
-
-mongodb@^3.3.1:
+mongodb@^3.3.0, mongodb@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.3.1.tgz#31947e3050872d325415694f89119f37d2107a91"
   integrity sha512-Q92LLlPUTBj/Z4DyeznwPJjvgOYUcxZsBfek3Ba9mVhzH41n70vSubo+BmemI98kOefHTSncrTyb3OaxdLSgDw==
@@ -4434,17 +4425,17 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
-mongoose-plugin-cursor-pagination@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mongoose-plugin-cursor-pagination/-/mongoose-plugin-cursor-pagination-1.0.0.tgz#1ae1e1da1c8dfca9ec199760bc4179954bef4d56"
-  integrity sha512-P0qww455D5m30om1Odyn6u5yfzcWsmChQV1ZtWagRCVE9QKhlc+OE184tb+Re0iaWTiiXRUcOKFB1VKIv2Dmtw==
+mongoose-plugin-cursor-pagination@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mongoose-plugin-cursor-pagination/-/mongoose-plugin-cursor-pagination-1.0.1.tgz#0cacea11e2f6dcf40530c32f79c641a0a4469f30"
+  integrity sha512-ux3Cx+KZ5Cuz9+9kfH43vLE+3o/6YeM4u4TYilmndORq+6BXIAYfs1ZLaX+wF81dQnh0ZylbLNIIyEsZIsPq8Q==
   dependencies:
     mongodb "^3.3.1"
 
-mongoose-plugin-dataloader@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mongoose-plugin-dataloader/-/mongoose-plugin-dataloader-1.0.0.tgz#4d2d748c8b0fa7ec67311e1e70d1aa7dbc7bea26"
-  integrity sha512-XQDVP1HTYs3TjegLk+yrBm7YWSiXP3Kw6MlTLy0VzfxuRlUkA+HX3OiTeXNcl0AFTEUbhF1GLg0hR/TVIiylAQ==
+mongoose-plugin-dataloader@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mongoose-plugin-dataloader/-/mongoose-plugin-dataloader-1.0.3.tgz#5651b2f38fb39ed83526d0cbc378782e41d1c323"
+  integrity sha512-7r13zWEHVtH851fuPGQ29qH/pSZO4fV5ccouEqCmsg2d6nsd581rI8K6QMOunP4rSBb1Mwmdj0OpYdOFeDRicg==
   dependencies:
     dataloader "^1.4.0"
     infotoprojection "^1.0.0"
