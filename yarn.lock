@@ -4432,10 +4432,10 @@ mongoose-plugin-cursor-pagination@^1.0.1:
   dependencies:
     mongodb "^3.3.1"
 
-mongoose-plugin-dataloader@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/mongoose-plugin-dataloader/-/mongoose-plugin-dataloader-1.0.3.tgz#5651b2f38fb39ed83526d0cbc378782e41d1c323"
-  integrity sha512-7r13zWEHVtH851fuPGQ29qH/pSZO4fV5ccouEqCmsg2d6nsd581rI8K6QMOunP4rSBb1Mwmdj0OpYdOFeDRicg==
+mongoose-plugin-dataloader@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mongoose-plugin-dataloader/-/mongoose-plugin-dataloader-1.0.2.tgz#6267d7d744db8d5a23bf885e75b89c443d1a8012"
+  integrity sha512-X/K6JgWPr63VWxQUgL5sCUHdr0OYLgaMBiUMvSFUpjByx/BOPiwvP5BauWmbIBvZ1LyxV3FfX1qPFo68FP5ePA==
   dependencies:
     dataloader "^1.4.0"
     infotoprojection "^1.0.0"
