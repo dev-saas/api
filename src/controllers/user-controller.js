@@ -1,8 +1,8 @@
 module.exports = ({ mongo: { User }, firebase: { auth } }) => {
   return {
-    register: async token => {
+    register: async (token, username) => {
       const { uid, email } = await auth.verifyIdToken(token)
-      await User.register(uid, email)
+      await User.register(uid, email, username)
       return true
     },
 

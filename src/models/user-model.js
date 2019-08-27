@@ -29,13 +29,13 @@ const userSchema = new Schema(schema, { timestamps: true })
 
 userSchema.index({ username: 'text' })
 
-userSchema.statics.register = async function (uid, email) {
+userSchema.statics.register = async function (uid, email, username) {
   try {
-    const existingUser = await this.findOne({ $or: [{ uid }, { email }] })
+    const existingUser = await this.findOne({ $or: [{ uid }, { email }, { username }] })
     if (existingUser) {
       throw new Error(USER_REGISTERED)
     }
-    return this.create({ uid, email })
+    return this.create({ uid, email, username })
   } catch (err) {
     throw err
   }

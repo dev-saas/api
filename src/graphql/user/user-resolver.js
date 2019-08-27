@@ -30,8 +30,8 @@ exports.resolver = {
   },
 
   Mutation: {
-    register: (_, { token }, { controllers }) =>
-      controllers.user.register(token),
+    register: (_, { token, username }, { controllers }) =>
+      controllers.user.register(token, username),
 
     updateUser: (_, params, { user, controllers }, info) =>
       controllers.user.update(user, params.user, info),
