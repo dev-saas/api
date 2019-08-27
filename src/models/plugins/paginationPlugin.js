@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectID
 
-module.exports = function (schema) {
+module.exports = function (schema, defaultPageSize = 10) {
   schema.statics.getPage = async function (
     page = {
       size: 10,
@@ -10,8 +10,8 @@ module.exports = function (schema) {
     key = '_id',
     sort = -1
   ) {
-    const { size, cursor } = page
-
+    let { size, cursor } = page
+    size = size || defaultPageSize
     if (cursor) {
       if (sort == -1) {
         params = { _id: { $lt: ObjectId(cursor) }, ...params }
