@@ -15,11 +15,11 @@ services:
   - redis-server
 
 install:
-  - npm install
+  - yarn
 
 script:
-  - npm test
-  - npm run lint
+  - yarn test
+  - yarn lint
 
 after_success:
   - sonar-scanner
