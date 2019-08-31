@@ -12,6 +12,7 @@ const loadPlugins = (model, models, controller) => {
 // inject the services to the controllers,
 // and exports all controllers with -controller.js in name
 module.exports = (services) => {
+  services.models = services.mongo.models
   let controllers = {}
   require('fs')
     .readdirSync(__dirname)
@@ -21,7 +22,7 @@ module.exports = (services) => {
       let name = file.replace('-controller.js', '')
       loadPlugins(
         name,
-        services.mongo,
+        services.mongo.models,
         controllers[name] = require('./' + file)(services)
       )
     })

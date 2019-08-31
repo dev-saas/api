@@ -1,6 +1,6 @@
 const { NEW_POST, UPDATED_POST } = require('../graphql/channels')
 
-module.exports = ({ mongo: { Post, User }, pubsub }) => {
+module.exports = ({ models: { Post, User }, pubsub }) => {
   return {
     findById: (_id, info) => Post.findById(_id, info),
 

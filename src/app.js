@@ -1,10 +1,9 @@
 const express = require('express')
-// const bodyParser = require('body-parser')
-// const cors = require('./middleware/cors')
-
+const apolloServer = require('./apollo-server')
+const bodyParser = require('body-parser')
 const app = express()
+app.use(bodyParser.json())
 
-// app.use(bodyParser.json())
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS')
@@ -14,5 +13,7 @@ app.use((req, res, next) => {
 
   next()
 })
+
+apolloServer.applyMiddleware({ app })
 
 module.exports = app

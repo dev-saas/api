@@ -1,4 +1,4 @@
-module.exports = ({ mongo: { Follow, User } }) => {
+module.exports = ({ models: { Follow, User } }) => {
   return {
     followers: (uid, page) => Follow.getPage(page, { following: uid }, 'owner'),
 

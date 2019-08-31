@@ -1,6 +1,6 @@
 const { NEW_NOTIFICATION } = require('../graphql/channels')
 
-module.exports = ({ mongo: { Notification }, pubsub }) => {
+module.exports = ({ models: { Notification }, pubsub }) => {
   return {
     findByUserUID: (uid, page) => Notification.getPage(page, { owner: uid }),
 

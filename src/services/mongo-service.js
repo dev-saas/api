@@ -12,4 +12,4 @@ mongoose
     debug('server:error')(err)
   })
 
-module.exports = mongoose.models
+module.exports = { models: mongoose.models, connection: mongoose.connection }

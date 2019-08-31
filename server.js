@@ -7,8 +7,6 @@ const app = require('./src/app')
 
 const PORT = process.env.PORT || 8000
 
-apolloServer.applyMiddleware({ app })
-
 const httpServer = createServer(app)
 
 apolloServer.installSubscriptionHandlers(httpServer)

@@ -1,18 +1,29 @@
-/* eslint-disable no-undef */
-
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: `${process.cwd()}/.env.local.test` })
 }
 
-const { connection } = require('./src/database')
-const app = require('./src/app')
-const pubsub = require('./src/pubsub')
-const mqtt = require('./src/mqtt')
-const User = require('./src/models/user')
+const {
+  mongo: {
+    connection,
+    models: {
+      User
+    }
+  },
+  mqtt,
+  pubsub
+} = require('./src/services')
 
-beforeAll(() => app.listen())
+let app = require('./src/app')
 
-beforeEach(() => User.create({ email: 'test@test.com', password: 'test' }))
+beforeAll(() => {
+  app = app.listen()
+  return app
+})
+
+beforeEach(async () => {
+  await User.create({ email: 'test@test.com', username: 'test', uid: '1' })
+  return User.create({ email: 'test2@test.com', username: 'test2', uid: '2' })
+})
 
 afterEach(() => connection.db.dropDatabase())
 

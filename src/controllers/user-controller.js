@@ -1,4 +1,4 @@
-module.exports = ({ mongo: { User }, firebase: { auth } }) => {
+module.exports = ({ models: { User }, firebase: { auth } }) => {
   return {
     register: async (token, username) => {
       const { uid, email } = await auth.verifyIdToken(token)
