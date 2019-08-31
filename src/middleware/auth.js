@@ -3,7 +3,7 @@ const decode = require('jwt-decode')
 module.exports = async token => {
   if (!token) return null
   try {
-    if (process.env.NODE_ENV.includes('test' || 'travis')) {
+    if (process.env.NODE_ENV.includes('test') || process.env.NODE_ENV.includes('travis')) {
       const { uid } = decode(token)
       return uid
     }
