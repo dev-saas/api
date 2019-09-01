@@ -5,6 +5,14 @@ module.exports = {
         commentPost(comment: $comment){
           _id
           message
+          owner {
+            username
+          }
+          post {
+            owner {
+              username
+            }
+          }
         }
       }
     `

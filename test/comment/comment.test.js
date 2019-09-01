@@ -10,12 +10,14 @@ describe('An registered user', () => {
     }
 
     return global.request()
-      .set('token', global.token.user1)
+      .set('token', global.token.user2)
       .send(mutationCommentPost)
       .expect(200)
       .expect(res => {
         expect(res.body.data.commentPost._id).toBeDefined()
         expect(res.body.data.commentPost.message).toBe('Testeee')
+        expect(res.body.data.commentPost.owner.username).toBe('test2')
+        expect(res.body.data.commentPost.post.owner.username).toBe('test')
       })
   })
 })
