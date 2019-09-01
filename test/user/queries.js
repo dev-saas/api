@@ -22,6 +22,11 @@ module.exports = {
               username
             }
           }
+          notifications {
+            nodes {
+              message
+            }
+          }
         }
       }
     `
@@ -44,6 +49,7 @@ module.exports = {
       query ($username: Username!) {
         user(username: $username) {
           username
+          email
         }
       }
     `
@@ -54,6 +60,13 @@ module.exports = {
         updateUser(user: $user){
           username
         }
+      }
+    `
+  },
+  mutationFollow: {
+    query: `
+      mutation ($uid: ID!) {
+        follow(uid: $uid)
       }
     `
   }

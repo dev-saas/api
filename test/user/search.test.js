@@ -10,6 +10,7 @@ describe('Anyone', () => {
       .expect(200)
       .expect(res => {
         expect(res.body.data.user.username).toBe('test')
+        expect(res.body.data.user.email).toBe(null)
       })
   })
 
