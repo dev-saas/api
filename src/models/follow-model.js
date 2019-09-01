@@ -21,6 +21,8 @@ addTypes(schema)
 
 const followSchema = new Schema(schema, { timestamps: true })
 
+followSchema.index({ owner: 1, following: 1 }, { unique: true })
+
 followSchema.plugin(paginationPlugin)
 followSchema.plugin(secureUpdatePlugin)
 followSchema.plugin(dataloaderPlugin)

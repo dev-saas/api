@@ -16,12 +16,14 @@ module.exports = ({ models: { Follow, User } }) => {
     },
 
     follow: async (owner, following) => {
+      if (owner == following) return false
       const isPrivate = await User.isPrivate({ uid: following })
-      return Follow.create({
+      const res = await Follow.create({
         owner,
         following,
         status: isPrivate ? 'PENDING' : 'ACCEPTED'
       })
+      return !!res
     }
   }
 }
