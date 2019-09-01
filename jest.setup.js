@@ -6,7 +6,8 @@ const {
   mongo: {
     connection,
     models: {
-      User
+      User,
+      Post
     }
   },
   mqtt,
@@ -22,7 +23,9 @@ beforeAll(() => {
 
 beforeEach(async () => {
   await User.create({ email: 'test@test.com', username: 'test', uid: '1' })
-  return User.create({ email: 'test2@test.com', username: 'test2', uid: '2' })
+  global.post = (await Post.create({ message: 'Test post', owner: '1' }))._id
+  await User.create({ email: 'test2@test.com', username: 'test2', uid: '2' })
+  return Post.create({ message: 'Test2 post', owner: '2' })
 })
 
 afterEach(() => connection.db.dropDatabase())

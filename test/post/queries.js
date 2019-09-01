@@ -8,5 +8,15 @@ module.exports = {
         }
       }
     `
+  },
+  mutationUpdatePost: {
+    query: `
+      mutation ($post: UpdatePostInput!) {
+        updatePost(post: $post){
+          _id
+          message
+        }
+      }
+    `
   }
 }
