@@ -1,6 +1,30 @@
-const { querySearch } = require('./queries')
+const { querySearch, queryUser } = require('./queries')
 
 describe('Anyone', () => {
+  it('should find one user', () => {
+    queryUser.variables = {
+      username: 'test'
+    }
+    return global.request()
+      .send(queryUser)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.data.user.username).toBe('test')
+      })
+  })
+
+  it('should find one user', () => {
+    queryUser.variables = {
+      username: 'testaa'
+    }
+    return global.request()
+      .send(queryUser)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.data.user).toBe(null)
+      })
+  })
+
   it('should search users', () => {
     querySearch.variables = {
       username: 'test'

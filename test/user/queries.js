@@ -24,6 +24,15 @@ module.exports = {
       }
     `
   },
+  queryUser: {
+    query: `
+      query ($username: Username!) {
+        user(username: $username) {
+          username
+        }
+      }
+    `
+  },
   mutationUpdate: {
     query: `
       mutation ($user: UpdateUserInput!) {
