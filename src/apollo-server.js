@@ -21,7 +21,7 @@ module.exports = new ApolloServer({
     connection // subscription context
       ? {
         controllers,
-        user: await auth(connection.context.headers.token)
+        user: await auth(connection.context.token)
       }
       : {
         // query, mutation context
