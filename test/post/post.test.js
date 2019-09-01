@@ -1,6 +1,31 @@
-const { mutationNewPost } = require('./queries')
+const { mutationNewPost, queryPost, queryPosts } = require('./queries')
 
 describe('An registered user', () => {
+  it('should see a post', () => {
+    queryPost.variables = {
+      id: global.post
+    }
+
+    return global.request()
+      .send(queryPost)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.data.post._id).toBeDefined()
+        expect(res.body.data.post.message).toBe('Test post')
+      })
+  })
+
+  it('should see a page of posts', () => {
+    return global.request()
+      .send(queryPosts)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.data.posts.cursor).toBeDefined()
+        expect(res.body.data.posts.hasNextPage).toBe(false)
+        expect(res.body.data.posts.nodes.length).toBe(2)
+      })
+  })
+
   it('should post a new twit', () => {
     mutationNewPost.variables = {
       post: {
