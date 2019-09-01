@@ -7,6 +7,21 @@ module.exports = {
           uid
           username
           email
+          posts {
+            nodes {
+              message
+            }
+          }
+          followers {
+            nodes {
+              username
+            }
+          }
+          following {
+            nodes {
+              username
+            }
+          }
         }
       }
     `
