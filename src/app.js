@@ -1,17 +1,9 @@
 const express = require('express')
 const apolloServer = require('./apollo-server')
-
+const cors = require('./middleware/cors')
 const app = express()
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, token, Recaptcha')
-
-  if (req.method === 'OPTIONS') return res.sendStatus(200)
-
-  next()
-})
+app.use(cors)
 
 apolloServer.applyMiddleware({ app })
 
