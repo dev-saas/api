@@ -2,6 +2,7 @@
   "ignore": ["test/"],
   "ext": "js, graphql",
   "env": {
+    "NODE_ENV": "dev",
     "MONGO_URI": "mongodb://user:password@ds11123.mlab.com:11123/heroku_233dsa",
     "REDIS_PASSWORD": "password",
     "REDIS_HOST": "redis-22345.c10.us-east-1-2.ec2.cloud.redislabs.com",
