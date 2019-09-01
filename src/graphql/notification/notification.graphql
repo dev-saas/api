@@ -3,5 +3,5 @@ type Notification inherits Node {
 }
 
 type Subscription {
-  newNotification: Notification!
+  newNotification: Notification! @isAuth
 }

@@ -12,6 +12,6 @@ type Mutation {
 }
 
 type Subscription {
-  newComment(post: ID!): Comment! @isAuth
+  newComment(post: ID!): Comment!
   updatedComment(comment: ID!): Comment!
 }
