@@ -2,11 +2,24 @@ module.exports = {
   queryPost: {
     query: `
       query ($id: ID!) {
-        post(id: $id){
+        post (id: $id) {
           _id
           message
+          owner {
+            username
+          }
+          comments{
+            hasNextPage
+            cursor
+            nodes{
+              owner{
+                username
+              }
+              message
+            }
+          }
         }
-      }
+      }    
     `
   },
   queryPosts: {

@@ -12,6 +12,8 @@ describe('An registered user', () => {
       .expect(res => {
         expect(res.body.data.post._id).toBeDefined()
         expect(res.body.data.post.message).toBe('Test post')
+        expect(res.body.data.post.owner.username).toBe('test')
+        expect(res.body.data.post.comments.nodes.length).toBe(0)
       })
   })
 
