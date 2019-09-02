@@ -1,5 +1,5 @@
 module.exports = {
-  setupFilesAfterEnv: ['./jest.setup.js', './test/setup/global.js'],
+  setupFilesAfterEnv: ['./jest.setup.js', './test/global.js'],
   verbose: true,
   testEnvironment: 'node',
   coverageDirectory: './coverage/',

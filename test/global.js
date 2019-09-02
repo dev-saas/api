@@ -1,8 +1,8 @@
 const {
   firebase
-} = require('../../src/services')
+} = require('../src/services')
 const request = require('supertest')
-const app = require('../../src/app')
+const app = require('../src/app')
 
 global.token = {}
 

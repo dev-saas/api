@@ -18,19 +18,24 @@
 
 ```bash
 .
-└── src
-    ├── controllers
-    ├── graphql
-    │   ├── _directives
-    │   ├── _scalars
-    │   ├── comment
-    │   ├── notification
-    │   ├── post
-    │   └── user
-    ├── middleware
-    ├── models
-    │   └── plugins
-    └── services
+├── src
+│   ├── controllers
+│   ├── graphql
+│   │   ├── _directives
+│   │   ├── _scalars
+│   │   ├── comment
+│   │   ├── notification
+│   │   ├── post
+│   │   └── user
+│   ├── middleware
+│   ├── models
+│   │   └── plugins
+│   └── services
+└── test
+    ├── comment
+    ├── post
+    ├── setup
+    └── user
 ```
 
 - **.** - configuration files
@@ -47,6 +52,7 @@
   - **models** - mongoose models
     - **plugins** - mongoose plugins
   - **services** - called by the controllers, need *-service* to be injected to the controllers constructor
+- **test** - functional tests
 
 ## Development
 
