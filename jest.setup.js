@@ -7,7 +7,8 @@ const {
     connection,
     models: {
       User,
-      Post
+      Post,
+      Follow
     }
   },
   mqtt,
@@ -25,6 +26,7 @@ beforeEach(async () => {
   await User.create({ email: 'test@test.com', username: 'test', uid: '1' })
   global.post = (await Post.create({ message: 'Test post', owner: '1' }))._id
   await User.create({ email: 'test2@test.com', username: 'test2', uid: '2' })
+  await Follow.create({ owner: '1', following: '2', status: 'ACCEPTED' })
   return Post.create({ message: 'Test2 post', owner: '2' })
 })
 

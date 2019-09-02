@@ -26,6 +26,24 @@ describe('Anyone', () => {
       })
   })
 
+  it('should not search invalid username', () => {
+    queryUser.variables = {
+      username: '1testaa'
+    }
+    return global.request()
+      .send(queryUser)
+      .expect(400)
+  })
+
+  it('should not search invalid username', () => {
+    queryUser.variables = {
+      username: 'testaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaatestaa'
+    }
+    return global.request()
+      .send(queryUser)
+      .expect(400)
+  })
+
   it('should search users', () => {
     querySearch.variables = {
       username: 'test'

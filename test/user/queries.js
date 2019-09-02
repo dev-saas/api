@@ -69,5 +69,12 @@ module.exports = {
         follow(uid: $uid)
       }
     `
+  },
+  mutationUnfollow: {
+    query: `
+      mutation ($uid: ID!) {
+        unfollow(uid: $uid)
+      }
+    `
   }
 }

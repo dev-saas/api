@@ -11,7 +11,7 @@ describe('An registered user', () => {
         expect(res.body.data.me.email).toBe('test@test.com')
         expect(res.body.data.me.posts.nodes.length).toBe(1)
         expect(res.body.data.me.followers.nodes.length).toBe(0)
-        expect(res.body.data.me.following.nodes.length).toBe(0)
+        expect(res.body.data.me.following.nodes.length).toBe(1)
       })
   })
 
@@ -24,7 +24,7 @@ describe('An registered user', () => {
         expect(res.body.data.me.username).toBe('test2')
         expect(res.body.data.me.email).toBe('test2@test.com')
         expect(res.body.data.me.posts.nodes.length).toBe(1)
-        expect(res.body.data.me.followers.nodes.length).toBe(0)
+        expect(res.body.data.me.followers.nodes.length).toBe(1)
         expect(res.body.data.me.following.nodes.length).toBe(0)
       })
   })
