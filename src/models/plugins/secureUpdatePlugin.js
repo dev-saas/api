@@ -6,6 +6,10 @@ function addTypes (schema) {
     type: String,
     required: true
   }
+  schema.isDeleted = {
+    type: Boolean,
+    default: false
+  }
 }
 
 function secureUpdatePlugin (schema) {
@@ -24,10 +28,10 @@ function secureUpdatePlugin (schema) {
     return this.findOne({ _id }, infoToProjection(info))
   }
 
-  schema.statics.secureRemove = async function (owner, _id) {
-    const deleted = await this.deleteOne({ _id, owner })
-    if (deleted.deletedCount < 1) throw new Error(NOT_FOUND)
-    return true
+  schema.statics.secureRemove = async function (owner, _id, info) {
+    const deleted = await this.findOneAndUpdate({ _id, owner }, { isDeleted: true }, { new: true, projection: infoToProjection(info) })
+    if (!deleted) throw new Error(NOT_FOUND)
+    return deleted
   }
 
   schema.statics.secureFind = async function (owner, _id) {
