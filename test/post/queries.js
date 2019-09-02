@@ -55,5 +55,15 @@ module.exports = {
         }
       }
     `
+  },
+  mutationDeletePost: {
+    query: `
+      mutation ($id: ID!) {
+        deletePost(id: $id){
+          _id
+          message
+        }
+      }
+    `
   }
 }

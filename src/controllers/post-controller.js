@@ -27,6 +27,6 @@ module.exports = ({ models: { Post, User }, pubsub }) => {
       return createdPost
     },
 
-    remove: (userId, id) => Post.secureRemove(userId, id)
+    remove: (userId, id, info) => Post.secureRemove(userId, id, info)
   }
 }
