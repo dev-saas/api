@@ -34,7 +34,6 @@
 └── test
     ├── comment
     ├── post
-    ├── setup
     └── user
 ```
 

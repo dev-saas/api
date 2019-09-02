@@ -1,5 +1,3 @@
-const { withFilter } = require('graphql-subscriptions')
-
 exports.resolver = {
   Post: {
     owner: ({ owner }, _, { controllers }, info) =>
@@ -31,22 +29,5 @@ exports.resolver = {
 
     deletePost: (_, { id }, { user, controllers }, info) =>
       controllers.post.remove(user, id, info)
-  },
-
-  Subscription: {
-    newPost: {
-      subscribe: (_, args, { controllers }) =>
-        controllers.post.newSubscription()
-    },
-
-    updatedPost: {
-      resolve: ({ updatedPost }, _, { controllers }, info) =>
-        controllers.post.load(updatedPost._id, info),
-
-      subscribe: withFilter(
-        (_, args, { controllers }) => controllers.post.updateSubscription(),
-        ({ updatedPost }, { post }) => updatedPost._id == post
-      )
-    }
   }
 }
