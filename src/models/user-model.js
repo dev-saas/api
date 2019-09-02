@@ -30,30 +30,22 @@ const userSchema = new Schema(schema, { timestamps: true })
 userSchema.index({ username: 'text' })
 
 userSchema.statics.register = async function (uid, email, username) {
-  try {
-    const existingUser = await this.findOne({ $or: [{ uid }, { email }, { username }] })
-    if (existingUser) {
-      throw new Error(USER_REGISTERED)
-    }
-    return this.create({ uid, email, username })
-  } catch (err) {
-    throw err
+  const existingUser = await this.findOne({ $or: [{ uid }, { email }, { username }] })
+  if (existingUser) {
+    throw new Error(USER_REGISTERED)
   }
+  return this.create({ uid, email, username })
 }
 
 userSchema.statics.update = async function (uid, user, info) {
-  try {
-    const updatedUser = await this.findOneAndUpdate({ uid }, user, {
-      new: true,
-      projection: infoToProjection(info)
-    })
-    if (!updatedUser) {
-      throw new Error(NOT_FOUND)
-    }
-    return updatedUser
-  } catch (err) {
-    throw err
+  const updatedUser = await this.findOneAndUpdate({ uid }, user, {
+    new: true,
+    projection: infoToProjection(info)
+  })
+  if (!updatedUser) {
+    throw new Error(NOT_FOUND)
   }
+  return updatedUser
 }
 
 userSchema.statics.isPrivate = async function (params) {
