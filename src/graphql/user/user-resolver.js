@@ -37,6 +37,9 @@ exports.resolver = {
       controllers.user.update(user, params.user, info),
 
     follow: (_, { uid }, { user, controllers }) =>
-      controllers.follow.follow(user, uid)
+      controllers.follow.follow(user, uid),
+
+    unfollow: (_, { uid }, { user, controllers }) =>
+      controllers.follow.unfollow(user, uid)
   }
 }

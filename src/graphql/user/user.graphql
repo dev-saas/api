@@ -25,7 +25,7 @@ type Mutation {
   register(token: String!, username: Username!): Boolean
   updateUser(user: UpdateUserInput): User @isAuth
   follow(uid: ID!): Boolean @isAuth
-  # unfollow(id: ID!): Boolean @isAuth
+  unfollow(uid: ID!): Boolean @isAuth
   # block(id: ID!): Boolean @isAuth
   # unblock(id: ID!): Boolean @isAuth
 }
