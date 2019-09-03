@@ -42,11 +42,11 @@ Lint:
    - yarn lint
 
 Deploy:
-  image: ruby:latest
+  image: ruby:2.6.0
   cache:
     key: deploy
     paths:
-      - vendor/ruby
+      - vendor/
       # - apt-cache/
   only:
     - master
@@ -56,4 +56,4 @@ Deploy:
     # - apt-get -o dir::cache::archives="apt-cache" install -y ruby-dev
     # - gem install dpl
     - bundle install -j $(nproc) --path vendor
-    - ./vendor/dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+    - ./vendor/bundle/ruby/2.6.0/bin/dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
