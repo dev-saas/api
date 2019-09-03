@@ -47,12 +47,13 @@ Deploy:
     key: deploy
     paths:
       - vendor/ruby
-      - apt-cache/
+      # - apt-cache/
   only:
     - master
   stage: deploy
   script:
-    - apt-get update -qy
-    - apt-get -o dir::cache::archives="apt-cache" install -y ruby-dev
-    - gem install --install-dir vendor dpl
+    # - apt-get update -qy
+    # - apt-get -o dir::cache::archives="apt-cache" install -y ruby-dev
+    - bundle install dpl --path vendor
+    # - gem install --install-dir vendor dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
