@@ -3,8 +3,13 @@ const { withFilter } = require('graphql-subscriptions')
 exports.resolver = {
   Subscription: {
     newPost: {
-      subscribe: (_, args, { controllers }) =>
-        controllers.post.newSubscription()
+      resolve: ({ newPost }, _, { controllers }, info) =>
+        controllers.post.load(newPost._id, info),
+
+      subscribe: withFilter(
+        (_, args, { controllers }) => controllers.post.newSubscription(),
+        ({ newPost }, { uid }) => newPost.owner == uid
+      )
     },
 
     updatedPost: {
