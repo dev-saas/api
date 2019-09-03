@@ -7,8 +7,8 @@ addons:
     organization: 'dev-saas'
 
 cache:
-  directories:
-    - node_modules
+  - npm
+  - yarn
 
 services:
   - mongodb
