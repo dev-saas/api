@@ -11,7 +11,7 @@ Build:
     paths:
       - node_modules/
       - .yarn/
-    policy: push
+    policy: pull-push
   script:
    - yarn
 
