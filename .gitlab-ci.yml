@@ -1,0 +1,20 @@
+image: node:10.16.2
+
+cache:
+  paths:
+  - node_modules/
+
+services:
+  - mongo
+  - redis
+
+variables:
+  MONGO_DATABASE: db_name
+
+  Host: mongo
+  Database: db_name
+
+test_UI:
+  script:
+   - npm install
+   - npm run test
