@@ -10,7 +10,6 @@ Build:
     key: build
     paths:
       - node_modules/
-      - .yarn/
     policy: pull-push
   script:
    - yarn
@@ -24,7 +23,6 @@ Test:
     key: build
     paths:
       - node_modules/
-      - .yarn/
     policy: pull
   variables:
     MONGO_DATABASE: db_name
@@ -39,7 +37,6 @@ Lint:
     key: build
     paths:
       - node_modules/
-      - .yarn/
     policy: pull
   script:
    - yarn lint
@@ -50,11 +47,12 @@ Deploy:
     key: deploy
     paths:
       - vendor/ruby
+      - apt-cache/
   only:
     - master
   stage: deploy
   script:
     - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
+    - apt-get -o dir::cache::archives="apt-cache" install -y ruby-dev
+    - gem install --install-dir vendor dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
