@@ -17,17 +17,23 @@ stages:
   - test
   - deploy
 
-job 1:
+Build:
   stage: build
-
-job 2:
-  stage: test
   script:
    - yarn
+
+Test:
+  stage: test
+  script:
    - yarn test
+
+Lint:
+  stage: test
+  script:
    - yarn lint
 
-Production:
+
+Deploy:
   image: ruby:latest
   only:
     - master
