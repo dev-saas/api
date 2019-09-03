@@ -12,8 +12,19 @@ services:
 variables:
   MONGO_DATABASE: db_name
 
-test_UI:
+Test:
   script:
    - yarn
    - yarn test
    - yarn lint
+
+Production:
+  image: ruby:latest
+  only:
+    - master
+  stage: deploy_production
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
