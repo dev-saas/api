@@ -11,6 +11,7 @@ Build:
     paths:
       - node_modules/
       - .yarn/
+    policy: push
   script:
    - yarn
 
@@ -19,6 +20,12 @@ Test:
   services:
     - mongo
     - redis
+  cache:
+    key: build
+    paths:
+      - node_modules/
+      - .yarn/
+    policy: pull
   variables:
     MONGO_DATABASE: db_name
   stage: test
@@ -28,6 +35,12 @@ Test:
 Lint:
   image: node:10.16.2
   stage: test
+  cache:
+    key: build
+    paths:
+      - node_modules/
+      - .yarn/
+    policy: pull
   script:
    - yarn lint
 
