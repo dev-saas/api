@@ -5,13 +5,6 @@ cache:
   - node_modules/
   - .yarn
 
-services:
-  - mongo
-  - redis
-
-variables:
-  MONGO_DATABASE: db_name
-
 stages:
   - build
   - test
@@ -23,6 +16,11 @@ Build:
    - yarn
 
 Test:
+  services:
+    - mongo
+    - redis
+  variables:
+    MONGO_DATABASE: db_name
   stage: test
   script:
    - yarn test
