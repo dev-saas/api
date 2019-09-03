@@ -11,10 +11,8 @@ services:
 variables:
   MONGO_DATABASE: db_name
 
-  Host: mongo
-  Database: db_name
-
 test_UI:
   script:
-   - npm install
-   - npm run test
+   - yarn
+   - yarn test
+   - yarn lint
