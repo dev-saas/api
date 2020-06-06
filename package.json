@@ -15,7 +15,7 @@
   "author": "Rafael Santos",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "2.4.8",
+    "apollo-server-express": "2.14.2",
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "firebase-admin": "^8.3.0",
